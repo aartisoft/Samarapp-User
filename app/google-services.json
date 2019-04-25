@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "41377244216",
+    "firebase_url": "https://samarapp-66bda.firebaseio.com",
+    "project_id": "samarapp-66bda",
+    "storage_bucket": "samarapp-66bda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41377244216:android:0012f818fbcb5c5b",
+        "android_client_info": {
+          "package_name": "com.smartloan.smtrick.samarapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "41377244216-i4ab3khsf0vupfcdiupblp58p8t9kqc6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smartloan.smtrick.samarapp",
+            "certificate_hash": "7a756ca8c61f8ca1f3fce8ae9400ecec5ee5e1ba"
+          }
+        },
+        {
+          "client_id": "41377244216-flqs3bue2bmb9a6qbnp5fd0s77bh6fop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV5qUFsGYT2K73WK9MRK1_aTePcfvqrL0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "41377244216-flqs3bue2bmb9a6qbnp5fd0s77bh6fop.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
