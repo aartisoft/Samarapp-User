@@ -24,7 +24,7 @@ public class MainCatalog_Activity extends AppCompatActivity {
     RecyclerView mainCatalogRecycler;
     ProgressBar maincatalogprogress;
 
-    private String subitem,mainitem;
+    private String subitem, mainitem;
 
     private List<Upload> uploads;
 
@@ -60,7 +60,7 @@ public class MainCatalog_Activity extends AppCompatActivity {
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+            uploads.clear();
             maincatalogprogress.setVisibility(View.INVISIBLE);
             //iterating through all the values in database
             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {

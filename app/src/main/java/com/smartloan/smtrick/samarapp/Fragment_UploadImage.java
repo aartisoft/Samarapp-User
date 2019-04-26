@@ -70,6 +70,7 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
     private ProgressBar spinnerprogress;
 
     private Spinner spinner_catlogname;
+    LeedRepository leedRepository;
 
     String image;
 
@@ -99,6 +100,8 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_imageupload, container, false);
+
+        leedRepository = new LeedRepositoryImpl();
 
         buttonChoose = (Button) view.findViewById(R.id.buttonChoose);
         buttonUpload = (Button) view.findViewById(R.id.buttonUpload);
@@ -293,16 +296,32 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String downloadurl = uri.toString();
+                                    String key =  mDatabase.push().getKey();
 
                                     String mainitem = mainspinner.getSelectedItem().toString();
                                     String subnitem = Subspinner.getSelectedItem().toString();
                                     String catalog = spinner_catlogname.getSelectedItem().toString();
-                                    Upload upload = new Upload(mainitem, subnitem,
-                                            Idescription.getText().toString().trim(), catalog, downloadurl,
-                                            FirebaseDatabase.getInstance().getReference(DATABASE_PATH_UPLOADS).push().getKey());
 
-                                    String uploadId = mDatabase.push().getKey();
-                                    mDatabase.child(uploadId).setValue(upload);
+                                    Upload upload = new Upload();
+                                    upload.setMainproduct(mainitem);
+                                    upload.setSubproduct(subnitem);
+                                    upload.setDesc( Idescription.getText().toString().trim());
+                                    upload.setName(catalog);
+                                    upload.setUrl(downloadurl);
+                                    upload.setPoductId(key);
+
+                                    leedRepository.createLeed(upload, new CallBack() {
+                                        @Override
+                                        public void onSuccess(Object object) {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Object object) {
+
+                                        }
+                                    });
+
                                 }
                             });
 

@@ -1,6 +1,10 @@
 package com.smartloan.smtrick.samarapp;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Belal on 2/23/2017.
@@ -54,6 +58,14 @@ public class Upload {
         this.desc = desc;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public String getName() {
         return name;
     }
@@ -68,5 +80,18 @@ public class Upload {
 
     public void setPoductId(String poductId) {
         this.poductId = poductId;
+    }
+
+    @Exclude
+    public Map<String, Object> getUpdateLeedMap() {
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("mainproduct", mainproduct);
+        objectMap.put("subproduct", subproduct);
+        objectMap.put("desc", desc);
+        objectMap.put("name", name);
+        objectMap.put("url", url);
+        objectMap.put("poductId", poductId);
+
+        return objectMap;
     }
 }

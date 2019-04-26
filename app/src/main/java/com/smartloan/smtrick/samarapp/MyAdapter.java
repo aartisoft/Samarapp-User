@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -29,9 +28,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.smartloan.smtrick.samarapp.R;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
@@ -40,6 +39,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context context;
     private List<Upload> uploads;
     private FirebaseStorage mStorage;
+    private DatabaseReference mDatabase;
+    InvoiceRepository invoiceRepository;
 
     public MyAdapter(Context context, List<Upload> uploads) {
         this.uploads = uploads;
@@ -78,13 +79,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.Edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               String desc =  holder.Edit.getText().toString();
+                String desc = holder.textViewdesc.getText().toString();
+                String mainpro = upload.getMainproduct();
+                String subpro = upload.getSubproduct();
+                String proid = upload.getPoductId();
+                String name = upload.getName();
+
                 upload.setDesc(desc);
-               String key = upload.getPoductId();
-
-                Query query = FirebaseDatabase.getInstance().getReference("NewImage").orderByChild("poductId").equalTo(key);
-
-
+                upload.setMainproduct(mainpro);
+                upload.setSubproduct(subpro);
+                upload.setPoductId(proid);
+                upload.setName(name);
+                updateid(upload.getPoductId(), upload.getUpdateLeedMap());
 
             }
         });
@@ -178,6 +184,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 
                 return true;
+            }
+        });
+
+    }
+
+    private void updateid(String poductId, Map<String, Object> updateLeedMap) {
+        invoiceRepository = new InvoiceRepositoryImpl();
+        invoiceRepository.updateLeed(poductId, updateLeedMap, new CallBack() {
+            @Override
+            public void onSuccess(Object object) {
+
+                Toast.makeText(context,"updated",Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onError(Object object) {
+
             }
         });
 
