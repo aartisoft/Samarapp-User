@@ -1,21 +1,39 @@
 package com.smartloan.smtrick.samarapp;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.List;
+
+import static com.android.volley.VolleyLog.TAG;
 
 public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapter.ViewHolder> {
 
     Context mContext;
     List<Upload> catalogList;
+    private FirebaseStorage mStorage;
 
     public MainCatalog_adapter(Context applicationContext, List<Upload> uploads) {
         this.mContext = applicationContext;
@@ -36,6 +54,7 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
     public void onBindViewHolder(@NonNull final MainCatalog_adapter.ViewHolder holder, final int position) {
 
         final String subcatname = catalogList.get(position).getName();
+        final String key = catalogList.get(position).getPoductId();
         holder.catalogSubname.setText(subcatname);
 
         if (position % 2 == 0) {
@@ -55,6 +74,97 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                 subintent.putExtra("subproduct", catalogList.get(position).getSubproduct());
                 subintent.putExtra("catname", catalogList.get(position).getName());
                 holder.catalogSubname.getContext().startActivity(subintent);
+            }
+        });
+
+        holder.subcardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // custom dialog
+                final Dialog dialog = new Dialog(holder.subcardView.getRootView().getContext());
+                dialog.setContentView(R.layout.customdialogbox);
+                //dialog.setTitle("Title...");
+
+                // set the custom dialog components - text, image and button
+                TextView text = (TextView) dialog.findViewById(R.id.text2);
+                text.setText(catalogList.get(position).getName());
+
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(holder.subcardView.getContext());
+
+                        builder.setMessage("Do you want to delete the record")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                        ///////3//////
+                                        try {
+
+//                                            String item1 = upload.getName().toString();
+                                            mStorage = FirebaseStorage.getInstance();
+                                            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
+                                            Query applesQuery1 = ref1.child("NewImage").orderByChild("poductId").equalTo(key);
+
+                                            applesQuery1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+                                                        appleSnapshot.getRef().removeValue();
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+                                                    Log.e(TAG, "onCancelled", databaseError.toException());
+                                                }
+                                            });
+
+                                            StorageReference imageRef = mStorage.getReferenceFromUrl(catalogList.get(position).getUrl());
+                                            imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                   // Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+//                                            Toast.makeText(holder.imagecard.getContext(), "Delete Product Successfully", Toast.LENGTH_SHORT).show();
+//                                            uploads.clear();
+
+
+                                        } catch (Exception e) {
+                                        }
+
+
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //  Action for 'NO' Button
+                                        dialog.cancel();
+                                    }
+                                });
+                        //Creating dialog box
+                        AlertDialog alert = builder.create();
+                        //Setting the title manually
+                        alert.setTitle("Delete Product");
+                        alert.show();
+
+                        dialog.dismiss();
+                    }
+
+                });
+
+                dialog.show();
+
+
+                return true;
             }
         });
 

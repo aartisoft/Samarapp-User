@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,8 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.smartloan.smtrick.samarapp.R;
 
 import java.util.List;
 
@@ -107,85 +103,91 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
 
                                         try {
                                             //////////2/////
-                                            String item = sublist.get(position).toString();
-                                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                                            Query applesQuery = ref.child("SubProducts").orderByChild("subproduct").equalTo(item);
+                                            final String item1 = sublist.get(position).toString();
+                                            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
+                                            Query applesQuery1 = ref1.child("NewImage").orderByChild("subproduct").equalTo(item1);
 
-                                            applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            applesQuery1.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
-                                                        ///////3//////
-                                                        try {
 
-                                                            final String item1 = sublist.get(position).toString();
-                                                            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
-                                                            Query applesQuery1 = ref1.child("NewImage").orderByChild("subproduct").equalTo(item1);
+                                                    if (dataSnapshot.getValue() != null) {
 
-                                                            applesQuery1.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                @Override
-                                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                                    for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+                                                        Toast.makeText(holder.subcardView.getContext(), "Please Delete the Main Catalog", Toast.LENGTH_SHORT).show();
+                                                    } else {
 
-                                                                        Query query = FirebaseDatabase.getInstance().getReference("NewImage").orderByChild("subproduct").equalTo(item1);
-                                                                        query.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                            @Override
-                                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                                                for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
-                                                                                    Upload upload = appleSnapshot.getValue(Upload.class);
-                                                                                    try {
-                                                                                        mStorage = FirebaseStorage.getInstance();
-                                                                                        StorageReference imageRef = mStorage.getReferenceFromUrl(upload.getUrl());
-                                                                                        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                            @Override
-                                                                                            public void onSuccess(Void aVoid) {
-                                                                                                //   Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show();
+                                                        String item = sublist.get(position).toString();
+                                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                                                        Query applesQuery = ref.child("SubProducts").orderByChild("subproduct").equalTo(item);
 
-                                                                                            }
-                                                                                        });
-                                                                                    } catch (Exception e) {
-
-                                                                                    }
-                                                                                }
-
-                                                                            }
-
-                                                                            @Override
-                                                                            public void onCancelled
-                                                                                    (@NonNull DatabaseError
-                                                                                             databaseError) {
-
-                                                                            }
-                                                                        });
-
+                                                        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                                for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+                                                                    ///////3//////
+                                                                    try {
                                                                         appleSnapshot.getRef().removeValue();
+                                                                        Toast.makeText(holder.catalogSubname.getContext(), "Delete Product Successfully", Toast.LENGTH_SHORT).show();
+                                                                        dialog1.dismiss();
+                                                                        sublist.clear();
 
+                                                                    } catch (Exception e) {
                                                                     }
                                                                 }
+                                                            }
 
-                                                                @Override
-                                                                public void onCancelled
-                                                                        (DatabaseError databaseError) {
-                                                                    Log.e(TAG, "onCancelled", databaseError.toException());
-                                                                }
-                                                            });
-
-                                                            appleSnapshot.getRef().removeValue();
-                                                            Toast.makeText(holder.catalogSubname.getContext(), "Delete Product Successfully", Toast.LENGTH_SHORT).show();
-                                                            dialog1.dismiss();
-                                                            sublist.clear();
-
-                                                        } catch (Exception e) {
-                                                        }
+                                                            @Override
+                                                            public void onCancelled(DatabaseError
+                                                                                            databaseError) {
+                                                                Log.e(TAG, "onCancelled", databaseError.toException());
+                                                            }
+                                                        });
                                                     }
+//                                                                    for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+
+//                                                                        Query query = FirebaseDatabase.getInstance().getReference("NewImage").orderByChild("subproduct").equalTo(item1);
+//                                                                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                                            @Override
+//                                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                                                                for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+//                                                                                    Upload upload = appleSnapshot.getValue(Upload.class);
+//                                                                                    try {
+//                                                                                        mStorage = FirebaseStorage.getInstance();
+//                                                                                        StorageReference imageRef = mStorage.getReferenceFromUrl(upload.getUrl());
+//                                                                                        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                                                                            @Override
+//                                                                                            public void onSuccess(Void aVoid) {
+//                                                                                                //   Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show();
+//
+//                                                                                            }
+//                                                                                        });
+//                                                                                    } catch (Exception e) {
+//
+//                                                                                    }
+//                                                                                }
+//
+//                                                                            }
+//
+//                                                                            @Override
+//                                                                            public void onCancelled
+//                                                                                    (@NonNull DatabaseError
+//                                                                                             databaseError) {
+//
+//                                                                            }
+//                                                                        });
+
+//                                                                        appleSnapshot.getRef().removeValue();
+//
+//                                                                    }
                                                 }
 
                                                 @Override
-                                                public void onCancelled(DatabaseError
-                                                                                databaseError) {
+                                                public void onCancelled
+                                                        (DatabaseError databaseError) {
                                                     Log.e(TAG, "onCancelled", databaseError.toException());
                                                 }
                                             });
+
 
                                         } catch (Exception e) {
                                         }
@@ -194,14 +196,12 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
 
                                     }
                                 })
-                                .
-
-                                        setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                //  Action for 'NO' Button
-                                                dialog.cancel();
-                                            }
-                                        });
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //  Action for 'NO' Button
+                                        dialog.cancel();
+                                    }
+                                });
                         //Creating dialog box
                         AlertDialog alert = builder.create();
                         //Setting the title manually

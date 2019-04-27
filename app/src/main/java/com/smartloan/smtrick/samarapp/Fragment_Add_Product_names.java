@@ -76,8 +76,10 @@ public class Fragment_Add_Product_names extends Fragment implements View.OnClick
         try {
 
             mDatabaseRefMain.addValueEventListener(new ValueEventListener() {
+
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mainproductlist.clear();
                     for (DataSnapshot mainproductSnapshot : dataSnapshot.getChildren()) {
 
                         MainProducts mainProducts = mainproductSnapshot.getValue(MainProducts.class);
@@ -105,11 +107,10 @@ public class Fragment_Add_Product_names extends Fragment implements View.OnClick
                 });
 
 
-            mDatabaseRefSub.addValueEventListener(new
-
-                ValueEventListener() {
+            mDatabaseRefSub.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange (@NonNull DataSnapshot dataSnapshot){
+                        subproductlist.clear();
                         for (DataSnapshot mainproductSnapshot : dataSnapshot.getChildren()) {
 
                             MainSubProducts mainsubproducts = mainproductSnapshot.getValue(MainSubProducts.class);

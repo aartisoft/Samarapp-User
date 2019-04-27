@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.smartloan.smtrick.samarapp.R;
 
 import java.util.List;
 
@@ -67,7 +67,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 //Do on click stuff
-               // Toast.makeText(holder.catalogname.getContext(), list.get(position), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(holder.catalogname.getContext(), list.get(position), Toast.LENGTH_SHORT).show();
                 String item = list.get(position).toString();
                 Intent intent = new Intent(holder.catalogname.getContext(), SubCatalogActivity.class);
                 intent.putExtra("itemName", item);
@@ -83,40 +83,53 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
 
                 try {
 
-                // custom dialog
-                final Dialog dialog1 = new Dialog(holder.cardView.getRootView().getContext());
-                dialog1.setContentView(R.layout.customdialogbox);
-                //dialog.setTitle("Title...");
-                String item = list.get(position).toString();
-                // set the custom dialog components - text, image and button
-                TextView text = (TextView) dialog1.findViewById(R.id.text2);
-                text.setText(item);
+                    // custom dialog
+                    final Dialog dialog1 = new Dialog(holder.cardView.getRootView().getContext());
+                    dialog1.setContentView(R.layout.customdialogbox);
+                    //dialog.setTitle("Title...");
+                    String item = list.get(position).toString();
+                    // set the custom dialog components - text, image and button
+                    TextView text = (TextView) dialog1.findViewById(R.id.text2);
+                    text.setText(item);
 
+                    Button dialogButton = (Button) dialog1.findViewById(R.id.dialogButtonOK);
+                    // if button is clicked, close the custom dialog
+                    dialogButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                Button dialogButton = (Button) dialog1.findViewById(R.id.dialogButtonOK);
-                // if button is clicked, close the custom dialog
-                dialogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                            final android.support.v7.app.AlertDialog.Builder builder = new AlertDialog.Builder(holder.cardView.getContext());
 
-                        android.support.v7.app.AlertDialog.Builder builder = new AlertDialog.Builder(holder.cardView.getContext());
+                            builder.setMessage("Do you want to delete the Product")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        public void onClick(final DialogInterface dialog, int id) {
 
-                        builder.setMessage("Do you want to delete the Product")
-                                .setCancelable(false)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
+                                            String item1 = list.get(position).toString();
+                                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                                            Query applesQuery = ref.child("SubProducts").orderByChild("mainproduct").equalTo(item1);
 
-                        String item1 = list.get(position).toString();
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                        Query applesQuery = ref.child("MainProducts").orderByChild("mainpro").equalTo(item1);
+                                            try {
+                                                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                                                        if (dataSnapshot.getValue() != null) {
 
-                        try {
+                                                            Toast.makeText(holder.cardView.getContext(), "Please Delete the Sub-Products", Toast.LENGTH_SHORT).show();
+                                                           
+                                                        } else {
 
-                           applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                               @Override
-                               public void onDataChange(DataSnapshot dataSnapshot) {
-                                   for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                                                            String item1 = list.get(position).toString();
+                                                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                                                            Query applesQuery = ref.child("MainProducts").orderByChild("mainpro").equalTo(item1);
+
+                                                            try {
+
+                                                                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                                                        for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
 
 //                                        try {
 //                                            //////////2/////
@@ -186,54 +199,64 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
 //
 //                                        } catch (Exception e) {
 //                                        }
-                                       appleSnapshot.getRef().removeValue();
-                                       Toast.makeText(holder.catalogname.getContext(), "Delete Product Successfully", Toast.LENGTH_SHORT).show();
-                                       list.clear();
-                                 }
+                                                                            appleSnapshot.getRef().removeValue();
+                                                                            Toast.makeText(holder.catalogname.getContext(), "Delete Product Successfully", Toast.LENGTH_SHORT).show();
+                                                                            list.clear();
+                                                                        }
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onCancelled(DatabaseError databaseError) {
+                                                                        Log.e(TAG, "onCancelled", databaseError.toException());
+                                                                    }
+                                                                });
+
+                                                            } catch (Exception e) {
+                                                            }
+
+                                                            dialog.dismiss();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            //  Action for 'NO' Button
+                                            dialog.cancel();
+                                        }
+                                    });
+                            //Creating dialog box
+                            AlertDialog alert = builder.create();
+                            //Setting the title manually
+                            alert.setTitle("Delete Product");
+                            alert.show();
+
+                            Button btnPositive = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+                            Button btnNegative = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+                            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) btnPositive.getLayoutParams();
+                            layoutParams.weight = 10;
+                            btnPositive.setLayoutParams(layoutParams);
+                            btnNegative.setLayoutParams(layoutParams);
 
 
-                               }
+                        }
+                    });
 
-                               @Override
-                               public void onCancelled(DatabaseError databaseError) {
-                                    Log.e(TAG, "onCancelled", databaseError.toException());
-                               }
-                           });
-
-                       }catch (Exception e){}
-
-                        dialog.dismiss();
-
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //  Action for 'NO' Button
-                                        dialog.cancel();
-                                    }
-                                });
-                        //Creating dialog box
-                        AlertDialog alert = builder.create();
-                        //Setting the title manually
-                        alert.setTitle("Delete Product");
-                        alert.show();
-
-                        Button btnPositive = alert.getButton(AlertDialog.BUTTON_POSITIVE);
-                        Button btnNegative = alert.getButton(AlertDialog.BUTTON_NEGATIVE);
-
-                        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) btnPositive.getLayoutParams();
-                        layoutParams.weight = 10;
-                        btnPositive.setLayoutParams(layoutParams);
-                        btnNegative.setLayoutParams(layoutParams);
+                    dialog1.show();
 
 
-                    }
-                });
-
-                dialog1.show();
-
-
-                }catch (Exception e){}
+                } catch (Exception e) {
+                }
 
                 return true;
 
