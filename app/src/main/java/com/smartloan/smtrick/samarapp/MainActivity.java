@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth firebaseAuth;
 
     private String uid;
+    String uName;
     private FirebaseUser Fuser;
     private DatabaseReference databaseReference;
 
@@ -117,15 +118,15 @@ public class MainActivity extends AppCompatActivity
 
             Fuser = firebaseAuth.getCurrentUser();
             uid = Fuser.getUid();
-            uid = Fuser.getDisplayName();
+        //    uid = Fuser.getDisplayName();
             databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     for (DataSnapshot usersnapshot : dataSnapshot.getChildren()) {
-                        String acctname = usersnapshot.child("name").getValue(String.class);
-                        String acctemail = usersnapshot.child("email").getValue(String.class);
+                        String acctname = dataSnapshot.child("name").getValue(String.class);
+                        String acctemail = dataSnapshot.child("email").getValue(String.class);
                         username.setText(acctname);
                         userEmail.setText(acctemail);
                     }
