@@ -365,13 +365,8 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
                 return;
             }
 
-//            String name = editTextName.getText().toString().trim();
             String DESC = Idescription.getText().toString().trim();
 
-//            if (TextUtils.isEmpty(name)) {
-//                Toast.makeText(getContext(), "Enter Name!", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
             if (TextUtils.isEmpty(DESC)) {
                 Toast.makeText(getContext(), "Enter Description!", Toast.LENGTH_SHORT).show();
                 return;
@@ -396,7 +391,6 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
             pickImage();
         }
     }
-
 
     public void spinnervalue() {
 
