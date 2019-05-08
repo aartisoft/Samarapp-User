@@ -178,6 +178,9 @@ public class MainActivity extends AppCompatActivity
             finish();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
+//            Intent i = new Intent(MainActivity.this,Multiple_images_Activity.class);
+//            startActivity(i);
+
         }
 
         //NOTE: Fragment changing code

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -16,7 +17,8 @@
         android:roundIcon="@drawable/samarapplogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainCatalog_Activity"></activity>
+        <activity android:name=".Multiple_images_Activity"></activity>
+        <activity android:name=".MainCatalog_Activity" />
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name"
