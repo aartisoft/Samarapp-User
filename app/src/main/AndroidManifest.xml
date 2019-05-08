@@ -17,7 +17,8 @@
         android:roundIcon="@drawable/samarapplogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Multiple_images_Activity"></activity>
+        <activity android:name=".Crop_Selected_Activity"></activity>
+        <activity android:name=".Multiple_images_Activity" />
         <activity android:name=".MainCatalog_Activity" />
         <activity
             android:name=".SplashScreen"

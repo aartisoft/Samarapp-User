@@ -1,6 +1,7 @@
 package com.smartloan.smtrick.samarapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,16 +40,19 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        Uri fileDone = fileDoneList.get(position);
+        final Uri fileDone = fileDoneList.get(position);
 
         Glide.with(mContext).load(fileDone).placeholder(R.drawable.loading).into(holder.fileDoneView);
 
         holder.fileDoneView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String uri = fileDone.toString();
+                Intent i = new Intent(holder.fileDoneView.getContext(),Crop_Selected_Activity.class);
+                i.putExtra("url", uri);
+                holder.fileDoneView.getContext().startActivity(i);
             }
         });
 

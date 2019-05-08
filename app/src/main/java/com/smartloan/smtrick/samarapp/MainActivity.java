@@ -174,12 +174,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.logout) {
 
             // clearDataWithSignOut();
-            FirebaseAuth.getInstance().signOut();
-            finish();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//            FirebaseAuth.getInstance().signOut();
+//            finish();
+//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
-//            Intent i = new Intent(MainActivity.this,Multiple_images_Activity.class);
-//            startActivity(i);
+            Intent i = new Intent(MainActivity.this,Multiple_images_Activity.class);
+            startActivity(i);
 
         }
 
