@@ -68,33 +68,11 @@ public class Multiple_images_Activity extends AppCompatActivity implements View.
 
                     String fileName = getFileName(fileUri);
 
-//                    fileNameList.add(fileName);
-                 //   fileDoneList.add("uploading");
-//                    uploadListAdapter.notifyDataSetChanged();
-
-
-//                    StorageReference fileToUpload = mStorage.child("Images").child(fileName);
-//
-//                    final int finalI = i;
-//                    fileToUpload.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//                            fileDoneList.remove(finalI);
-//                            fileDoneList.add(finalI, "done");
-//
-//                            uploadListAdapter.notifyDataSetChanged();
-//
-//                        }
-//                    });
-
                 }
                 uploadListAdapter = new UploadListAdapter(getApplicationContext(),fileDoneList);
                 imagesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
                 imagesRecyclerView.setHasFixedSize(true);
                 imagesRecyclerView.setAdapter(uploadListAdapter);
-
-                //Toast.makeText(MainActivity.this, "Selected Multiple Files", Toast.LENGTH_SHORT).show();
 
             } else if (data.getData() != null){
 

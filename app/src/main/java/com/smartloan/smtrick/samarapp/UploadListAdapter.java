@@ -41,22 +41,16 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-       // String fileName = fileNameList.get(position);
-       // holder.fileNameView.setText(fileName);
-
         Uri fileDone = fileDoneList.get(position);
 
         Glide.with(mContext).load(fileDone).placeholder(R.drawable.loading).into(holder.fileDoneView);
 
-//        if(fileDone.equals("uploading")){
-//
-//            holder.fileDoneView.setImageResource(R.mipmap.progress);
-//
-//        } else {
-//
-//            holder.fileDoneView.setImageResource(R.mipmap.checked);
-//
-//        }
+        holder.fileDoneView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
@@ -77,9 +71,7 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
 
             mView = itemView;
 
-//            fileNameView = (TextView) mView.findViewById(R.id.upload_filename);
             fileDoneView = (ImageView) mView.findViewById(R.id.upload_icon);
-
 
         }
 
