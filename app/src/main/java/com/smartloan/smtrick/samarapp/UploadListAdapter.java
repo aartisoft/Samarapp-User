@@ -1,5 +1,6 @@
 package com.smartloan.smtrick.samarapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,7 +23,8 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
 
   //  public List<String> fileNameList;
     public List<Uri> fileDoneList;
-    Context mContext;
+    Context mContext,nContext;
+    private static final int REQUEST_CROP_IMAGE = 2342;
 
     public UploadListAdapter(Context fileNameList, List<Uri> fileDoneList){
 
@@ -35,6 +37,7 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_single, parent, false);
+        nContext = parent.getContext();
         return new ViewHolder(v);
 
     }
@@ -50,13 +53,18 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
             @Override
             public void onClick(View v) {
                 String uri = fileDone.toString();
-                Intent i = new Intent(holder.fileDoneView.getContext(),Crop_Selected_Activity.class);
-                i.putExtra("url", uri);
-                holder.fileDoneView.getContext().startActivity(i);
+//                Intent i = new Intent(holder.fileDoneView.getContext(),Crop_Selected_Activity.class);
+//                i.putExtra("url", uri);
+//                holder.fileDoneView.getContext().startActivity(i);
+
+                Intent intent = new Intent(holder.fileDoneView.getContext(), CropImageActivity.class);
+                intent.putExtra(CropImageActivity.EXTRA_IMAGE_URI, uri.toString());
+                ((Activity) nContext).startActivityForResult(intent, REQUEST_CROP_IMAGE);
             }
         });
 
     }
+
 
     @Override
     public int getItemCount() {

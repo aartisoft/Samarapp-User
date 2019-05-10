@@ -3,10 +3,12 @@ package com.smartloan.smtrick.samarapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.OpenableColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +26,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
     private static final int DEFAULT_ASPECT_RATIO_VALUES = 100;
 
     public static final String CROPPED_IMAGE_PATH = "cropped_image_path";
+    public static final String ORIGINAL_IMAGE_PATH = "original_image_path";
     public static final String EXTRA_IMAGE_URI = "cropped_image_path";
 
     public static final String FIXED_ASPECT_RATIO = "extra_fixed_aspect_ratio";
@@ -43,6 +46,8 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
     private boolean isFixedAspectRatio = false;
 
     Bitmap croppedImage;
+    String fileName;
+    Uri imageUri;
     //endregion
 
     // Saves the state upon rotating the screen/restarting the activity
@@ -75,7 +80,8 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
         mAspectRatioX = getIntent().getIntExtra(EXTRA_ASPECT_RATIO_X, DEFAULT_ASPECT_RATIO_VALUES);
         mAspectRatioY = getIntent().getIntExtra(EXTRA_ASPECT_RATIO_Y, DEFAULT_ASPECT_RATIO_VALUES);
 
-        Uri imageUri = Uri.parse(getIntent().getStringExtra(EXTRA_IMAGE_URI));
+        imageUri = Uri.parse(getIntent().getStringExtra(EXTRA_IMAGE_URI));
+        fileName = getFileName(imageUri);
         // Initialize components of the app
         mCropImageView = (CropImageView) findViewById(R.id.CropImageView);
         // If you want to fix the aspect ratio, set it to 'true'
@@ -148,6 +154,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
                 String image = path.toString();
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra(CROPPED_IMAGE_PATH,path.toString());
+                resultIntent.putExtra(ORIGINAL_IMAGE_PATH,imageUri.toString());
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             } catch (IOException e) {
@@ -167,7 +174,7 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
         int n = 10000;
         n = generator.nextInt(n);
         String fname = "Image-" + n + ".jpg";
-        File file = new File(root, fname);
+        File file = new File(root, fileName);
         Uri imageuri = Uri.fromFile(file);
         //  Log.i(TAG, "" + file);
         if (file.exists())
@@ -208,4 +215,25 @@ public class CropImageActivity extends AppCompatActivity implements CropImageVie
 //        }
 //        return directory.getAbsolutePath();
 //    }
+public String getFileName(Uri uri) {
+    String result = null;
+    if (uri.getScheme().equals("content")) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+        } finally {
+            cursor.close();
+        }
+    }
+    if (result == null) {
+        result = uri.getPath();
+        int cut = result.lastIndexOf('/');
+        if (cut != -1) {
+            result = result.substring(cut + 1);
+        }
+    }
+    return result;
+}
 }

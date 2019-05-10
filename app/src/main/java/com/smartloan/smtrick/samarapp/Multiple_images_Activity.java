@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,12 @@ public class Multiple_images_Activity extends AppCompatActivity implements View.
     Button Select;
     RecyclerView imagesRecyclerView;
     private static final int RESULT_LOAD_IMAGE = 1;
+    private static final int REQUEST_CROP_IMAGE = 2342;
+    String image;
+    private Uri filePath;
+
+    String image1;
+    private Uri filePath1;
 
     private List<String> fileNameList;
     private List<Uri> fileDoneList;
@@ -33,7 +41,7 @@ public class Multiple_images_Activity extends AppCompatActivity implements View.
 
         Select = (Button) findViewById(R.id.imageSelect);
         imagesRecyclerView = (RecyclerView) findViewById(R.id.imageRecyclerView);
-        fileDoneList  = new ArrayList<>();
+        fileDoneList = new ArrayList<>();
 
         Select.setOnClickListener(this);
     }
@@ -45,7 +53,7 @@ public class Multiple_images_Activity extends AppCompatActivity implements View.
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Picture"), RESULT_LOAD_IMAGE);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), RESULT_LOAD_IMAGE);
 
 
     }
@@ -55,31 +63,65 @@ public class Multiple_images_Activity extends AppCompatActivity implements View.
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK){
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
 
-            if(data.getClipData() != null){
+            if (data.getClipData() != null) {
 
                 int totalItemsSelected = data.getClipData().getItemCount();
 
-                for(int i = 0; i < totalItemsSelected; i++){
+                for (int i = 0; i < totalItemsSelected; i++) {
 
                     Uri fileUri = data.getClipData().getItemAt(i).getUri();
-                    fileDoneList.add( data.getClipData().getItemAt(i).getUri());
+                    fileDoneList.add(data.getClipData().getItemAt(i).getUri());
 
                     String fileName = getFileName(fileUri);
 
                 }
-                uploadListAdapter = new UploadListAdapter(getApplicationContext(),fileDoneList);
-                imagesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+                uploadListAdapter = new UploadListAdapter(getApplicationContext(), fileDoneList);
+                imagesRecyclerView.setLayoutManager(new LinearLayoutManager(Multiple_images_Activity.this, LinearLayoutManager.HORIZONTAL, true));
                 imagesRecyclerView.setHasFixedSize(true);
                 imagesRecyclerView.setAdapter(uploadListAdapter);
 
-            } else if (data.getData() != null){
+            } else if (data.getData() != null) {
 
                 Toast.makeText(Multiple_images_Activity.this, "Selected Single File", Toast.LENGTH_SHORT).show();
 
             }
 
+        } else if (requestCode == REQUEST_CROP_IMAGE) {
+            System.out.println("Image crop success :" + data.getStringExtra(CropImageActivity.CROPPED_IMAGE_PATH));
+            String imagePath = new File(data.getStringExtra(CropImageActivity.CROPPED_IMAGE_PATH), "image.jpg").getAbsolutePath();
+            String original = new File(data.getStringExtra(CropImageActivity.ORIGINAL_IMAGE_PATH), "image.jpg").getAbsolutePath();
+
+            //   Uri imagePath1 = Uri.parse(data.getStringExtra("image_path"));
+            String str = imagePath.toString();
+            String whatyouaresearching = str.substring(0, str.lastIndexOf("/"));
+            image = whatyouaresearching.substring(whatyouaresearching.lastIndexOf("/") + 1, whatyouaresearching.length());
+            String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+            File file = new File(root, image);
+            filePath = Uri.fromFile(file);
+
+
+            String str1 = original.toString();
+            String whatyouaresearching1 = str1.substring(0, str1.lastIndexOf("/"));
+            String search = whatyouaresearching1.substring(1,whatyouaresearching1.length());
+            int i = search.indexOf("/");
+            String main = search.substring(0, i) + "/" + search.substring(i, search.length());
+            Uri u = Uri.parse(main);
+
+            int pos = fileDoneList.indexOf(u);
+
+            fileDoneList.remove(pos);
+            fileDoneList.add(filePath);
+
+            uploadListAdapter = new UploadListAdapter(getApplicationContext(), fileDoneList);
+            imagesRecyclerView.setLayoutManager(new LinearLayoutManager(Multiple_images_Activity.this, LinearLayoutManager.HORIZONTAL, true));
+            imagesRecyclerView.setHasFixedSize(true);
+            imagesRecyclerView.setAdapter(uploadListAdapter);
+//            Intent result = new Intent();
+//            result.putExtra("image_path", imagePath);
+//            setResult(Activity.RESULT_OK, result);
+//            finish();
         }
 
     }
