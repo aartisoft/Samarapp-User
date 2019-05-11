@@ -14,6 +14,8 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +57,13 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
     private static final int REQUEST_PICK_IMAGE = 1002;
     Bitmap imageBitmap;
 
+    private static final int RESULT_LOAD_IMAGE = 1;
+    private static final int REQUEST_CROP_IMAGE = 2342;
+
+    private List<Uri> fileDoneList;
+
+    private UploadListAdapter uploadListAdapter;
+    RecyclerView imagesRecyclerView;
 
     //constant to track image chooser intent
     private static final int PICK_IMAGE_REQUEST = 234;
@@ -116,6 +125,9 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
         storageReference = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference(DATABASE_PATH_UPLOADS);
 
+        imagesRecyclerView = (RecyclerView) view.findViewById(R.id.imageRecyclerView);
+        fileDoneList = new ArrayList<>();
+
         mainproductList = new ArrayList<>();
         subproductList = new ArrayList<>();
         mainCatalogList = new ArrayList<>();
@@ -135,6 +147,49 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == buttonChoose) {
+
+            // showFileChooser();
+            pickImage();
+
+        } else if (view == buttonUpload) {
+            if (mainspinner.getSelectedItem().toString().trim().equals("")) {
+                Toast.makeText(getContext(), "Main Product required", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (Subspinner.getSelectedItem().toString().trim().equals("")) {
+                Toast.makeText(getContext(), "Sub Product required", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String DESC = Idescription.getText().toString().trim();
+
+            if (TextUtils.isEmpty(DESC)) {
+                Toast.makeText(getContext(), "Enter Description!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (imageView.getDrawable() == null) {
+                Toast.makeText(getContext(), "Image Required!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            uploadFile();
+        }
+    }
+
+
+    public void pickImage() {
+
+//        startActivityForResult(new Intent(getContext(), ImagePickerActivity.class), REQUEST_PICK_IMAGE);
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), RESULT_LOAD_IMAGE);
     }
 
     @Override
@@ -173,31 +228,92 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
 //            e.printStackTrace();
 //        }
 
-        if (resultCode == RESULT_OK) {
-            if (data != null) {
-                switch (requestCode) {
-                    case REQUEST_PICK_IMAGE:
+//        if (resultCode == RESULT_OK) {
+//            if (data != null) {
+//                switch (requestCode) {
+//                    case REQUEST_PICK_IMAGE:
+//
+////                        String path = "file:///storage/emulated/0/Download/Image-5312.jpg";
+////                        Bundle bundle = data.getExtras();
+////                        String ima = bundle.getString("ima");
+////                        Uri imagePath = Uri.parse(ima);
+//                        Uri imagePath = Uri.parse(data.getStringExtra("image_path"));
+//
+//                        String str = imagePath.toString();
+//                        String whatyouaresearching = str.substring(0, str.lastIndexOf("/"));
+//                        image = whatyouaresearching.substring(whatyouaresearching.lastIndexOf("/") + 1, whatyouaresearching.length());
+//                        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+//                        File file = new File(root, image);
+//
+//                        filePath = Uri.fromFile(file);
+//                        setImage(filePath);
+//                        break;
+//                }
+//            }
+//        } else {
+//
+//            System.out.println("Failed to load image");
+//        }
 
-//                        String path = "file:///storage/emulated/0/Download/Image-5312.jpg";
-//                        Bundle bundle = data.getExtras();
-//                        String ima = bundle.getString("ima");
-//                        Uri imagePath = Uri.parse(ima);
-                        Uri imagePath = Uri.parse(data.getStringExtra("image_path"));
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
 
-                        String str = imagePath.toString();
-                        String whatyouaresearching = str.substring(0, str.lastIndexOf("/"));
-                        image = whatyouaresearching.substring(whatyouaresearching.lastIndexOf("/") + 1, whatyouaresearching.length());
-                        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-                        File file = new File(root, image);
+            if (data.getClipData() != null) {
 
-                        filePath = Uri.fromFile(file);
-                        setImage(filePath);
-                        break;
+                int totalItemsSelected = data.getClipData().getItemCount();
+
+                for (int i = 0; i < totalItemsSelected; i++) {
+
+                    Uri fileUri = data.getClipData().getItemAt(i).getUri();
+                    fileDoneList.add(data.getClipData().getItemAt(i).getUri());
+
+                    //String fileName = getFileName(fileUri);
+
                 }
-            }
-        } else {
+                uploadListAdapter = new UploadListAdapter(getActivity(), fileDoneList);
+                imagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+                imagesRecyclerView.setHasFixedSize(true);
+                imagesRecyclerView.setAdapter(uploadListAdapter);
 
-            System.out.println("Failed to load image");
+            } else if (data.getData() != null) {
+
+                Toast.makeText(getContext(), "Selected Single File", Toast.LENGTH_SHORT).show();
+
+            }
+
+        } else if (requestCode == REQUEST_CROP_IMAGE) {
+            System.out.println("Image crop success :" + data.getStringExtra(CropImageActivity.CROPPED_IMAGE_PATH));
+            String imagePath = new File(data.getStringExtra(CropImageActivity.CROPPED_IMAGE_PATH), "image.jpg").getAbsolutePath();
+            String original = new File(data.getStringExtra(CropImageActivity.ORIGINAL_IMAGE_PATH), "image.jpg").getAbsolutePath();
+
+            //   Uri imagePath1 = Uri.parse(data.getStringExtra("image_path"));
+            String str = imagePath.toString();
+            String whatyouaresearching = str.substring(0, str.lastIndexOf("/"));
+            image = whatyouaresearching.substring(whatyouaresearching.lastIndexOf("/") + 1, whatyouaresearching.length());
+            String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+            File file = new File(root, image);
+            filePath = Uri.fromFile(file);
+
+
+            String str1 = original.toString();
+            String whatyouaresearching1 = str1.substring(0, str1.lastIndexOf("/"));
+            String search = whatyouaresearching1.substring(1,whatyouaresearching1.length());
+            int i = search.indexOf("/");
+            String main = search.substring(0, i) + "/" + search.substring(i, search.length());
+            Uri u = Uri.parse(main);
+
+            int pos = fileDoneList.indexOf(u);
+
+            fileDoneList.remove(pos);
+            fileDoneList.add(filePath);
+
+            uploadListAdapter = new UploadListAdapter(getActivity(), fileDoneList);
+            imagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true));
+            imagesRecyclerView.setHasFixedSize(true);
+            imagesRecyclerView.setAdapter(uploadListAdapter);
+//            Intent result = new Intent();
+//            result.putExtra("image_path", imagePath);
+//            setResult(Activity.RESULT_OK, result);
+//            finish();
         }
 
     }
@@ -348,41 +464,7 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == buttonChoose) {
 
-            // showFileChooser();
-            pickImage();
-
-        } else if (view == buttonUpload) {
-            if (mainspinner.getSelectedItem().toString().trim().equals("")) {
-                Toast.makeText(getContext(), "Main Product required", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (Subspinner.getSelectedItem().toString().trim().equals("")) {
-                Toast.makeText(getContext(), "Sub Product required", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            String DESC = Idescription.getText().toString().trim();
-
-            if (TextUtils.isEmpty(DESC)) {
-                Toast.makeText(getContext(), "Enter Description!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (imageView.getDrawable() == null) {
-                Toast.makeText(getContext(), "Image Required!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            uploadFile();
-        }
-    }
-
-    public void pickImage() {
-
-        startActivityForResult(new Intent(getContext(), ImagePickerActivity.class), REQUEST_PICK_IMAGE);
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -404,7 +486,7 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
                     MainProducts mainProducts2 = mainproduct2Snapshot.getValue(MainProducts.class);
                     mainproductList.add(mainProducts2.getMainpro());
                 }
-                ArrayAdapter<String> mainadapter = new ArrayAdapter<String>(getContext(),
+                ArrayAdapter<String> mainadapter = new ArrayAdapter<String>(getActivity(),
                         android.R.layout.simple_spinner_item, mainproductList);
                 mainadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 mainspinner.setAdapter(mainadapter);
@@ -453,7 +535,7 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
                 // subCatalogAdapter.notifyDataSetChanged();
             }
 
-            ArrayAdapter<String> subadapter = new ArrayAdapter<String>(getContext(),
+            ArrayAdapter<String> subadapter = new ArrayAdapter<String>(getActivity(),
                     android.R.layout.simple_spinner_item, subproductList);
             subadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             Subspinner.setAdapter(subadapter);
@@ -478,7 +560,7 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
                     MainCatalog catalog = mainproduct2Snapshot.getValue(MainCatalog.class);
                     mainCatalogList.add(catalog.getMaincat());
                 }
-                ArrayAdapter<String> mainadapter = new ArrayAdapter<String>(getContext(),
+                ArrayAdapter<String> mainadapter = new ArrayAdapter<String>(getActivity(),
                         android.R.layout.simple_spinner_item, mainCatalogList);
                 mainadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_catlogname.setAdapter(mainadapter);

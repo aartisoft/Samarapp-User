@@ -164,8 +164,11 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,
                     new Fragment_Add_Product_names()).commit();
         } else if (id == R.id.upload) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,
-                   new Fragment_UploadImage()).commit();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,
+//                   new Fragment_UploadImage()).commit();
+            Intent intent = new Intent(MainActivity.this,Upload_Image_Activity.class);
+            startActivity(intent);
+
         } else if (id == R.id.view_catalogs) {
             getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,
                     new Fragment_ViewCatalogs()).commit();

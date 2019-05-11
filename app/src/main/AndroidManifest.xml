@@ -50,10 +50,15 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_reset_password"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".ShowImagesActivity" />
+
         <activity android:name=".SubCatalogActivity" />
+
         <activity android:name=".UserDetailsActivity" />
+
         <activity android:name=".Upload_Image_Activity" />
+
         <activity
             android:name=".sharedtransitionActivity"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity -->
