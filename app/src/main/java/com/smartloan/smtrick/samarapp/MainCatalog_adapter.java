@@ -162,8 +162,6 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                 });
 
                 dialog.show();
-
-
                 return true;
             }
         });
@@ -174,6 +172,7 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
     public int getItemCount() {
         return catalogList.size();
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
