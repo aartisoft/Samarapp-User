@@ -22,10 +22,10 @@
             android:icon="@drawable/ic_power_settings"
             android:title="Log Out" />
 
-        <item
-            android:id="@+id/uploadImage"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Uplload Images"/>
+        <!--<item-->
+            <!--android:id="@+id/uploadImage"-->
+            <!--android:icon="@drawable/ic_menu_camera"-->
+            <!--android:title="Uplload Images"/>-->
 
     </group>
 

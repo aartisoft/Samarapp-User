@@ -16,7 +16,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +74,7 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
     private Spinner mainspinner;
     private ImageView imageView;
     private Spinner Subspinner;
-    private EditText Idescription;
+//    private EditText Idescription;
     private ProgressBar spinnerprogress;
 
     private Spinner spinner_catlogname;
@@ -119,7 +118,7 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
         mainspinner = (Spinner) view.findViewById(R.id.spinner_mainProduct);
         Subspinner = (Spinner) view.findViewById(R.id.spinner_Subproduct);
         spinner_catlogname = (Spinner) view.findViewById(R.id.spinner_catlogname);
-        Idescription = (EditText) view.findViewById(R.id.description);
+//        Idescription = (EditText) view.findViewById(R.id.description);
         spinnerprogress = (ProgressBar) view.findViewById(R.id.spinner_progress);
 
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -166,12 +165,12 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
                 return;
             }
 
-            String DESC = Idescription.getText().toString().trim();
+//            String DESC = Idescription.getText().toString().trim();
 
-            if (TextUtils.isEmpty(DESC)) {
-                Toast.makeText(getContext(), "Enter Description!", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (TextUtils.isEmpty(DESC)) {
+//                Toast.makeText(getContext(), "Enter Description!", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
             if (imageView.getDrawable() == null) {
                 Toast.makeText(getContext(), "Image Required!", Toast.LENGTH_SHORT).show();
                 return;
@@ -421,7 +420,7 @@ public class Fragment_UploadImage extends Fragment implements View.OnClickListen
                                     Upload upload = new Upload();
                                     upload.setMainproduct(mainitem);
                                     upload.setSubproduct(subnitem);
-                                    upload.setDesc( Idescription.getText().toString().trim());
+//                                    upload.setDesc( Idescription.getText().toString().trim());
                                     upload.setName(catalog);
                                     upload.setUrl(downloadurl);
                                     upload.setPoductId(key);

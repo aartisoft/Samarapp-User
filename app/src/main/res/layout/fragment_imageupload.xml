@@ -63,20 +63,20 @@
                 <!--android:hint="Image title" />-->
         <!--</android.support.design.widget.TextInputLayout>-->
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
 
-            <EditText
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="10dp"
-                android:hint="Description"
-                android:gravity="top"
-                android:scrollbars="vertical"
-                android:inputType="textMultiLine" />
-        </android.support.design.widget.TextInputLayout>
+            <!--<EditText-->
+                <!--android:id="@+id/description"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="150dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:hint="Description"-->
+                <!--android:gravity="top"-->
+                <!--android:scrollbars="vertical"-->
+                <!--android:inputType="textMultiLine" />-->
+        <!--</android.support.design.widget.TextInputLayout>-->
 
         <Button
             android:id="@+id/buttonChoose"

@@ -178,10 +178,11 @@ public class MainActivity extends AppCompatActivity
             FirebaseAuth.getInstance().signOut();
             finish();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        }else if (id == R.id.uploadImage) {
-            Intent i = new Intent(MainActivity.this,Multiple_images_Activity.class);
-            startActivity(i);
         }
+//        else if (id == R.id.uploadImage) {
+//            Intent i = new Intent(MainActivity.this,Multiple_images_Activity.class);
+//            startActivity(i);
+//        }
 
 
 

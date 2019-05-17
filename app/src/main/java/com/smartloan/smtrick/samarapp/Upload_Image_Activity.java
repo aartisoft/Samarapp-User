@@ -13,28 +13,16 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -49,14 +37,9 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Upload_Image_Activity extends AppCompatActivity implements View.OnClickListener {
 
@@ -84,7 +67,7 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
     private Spinner mainspinner;
     private ImageView imageView;
     private Spinner Subspinner;
-    private EditText Idescription;
+//    private EditText Idescription;
     private ProgressBar spinnerprogress;
 
     private Spinner spinner_catlogname;
@@ -105,9 +88,18 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
     LeedRepository leedRepository;
 
     @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_imageupload);
+
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         leedRepository = new LeedRepositoryImpl();
 
@@ -117,12 +109,11 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
         imageView = (ImageView) findViewById(R.id.imageView);
-        // editTextName = (EditText) findViewById(R.id.editText);
         mainspinner = (Spinner) findViewById(R.id.spinner_mainProduct);
         Subspinner = (Spinner) findViewById(R.id.spinner_Subproduct);
         spinner_catlogname = (Spinner) findViewById(R.id.spinner_catlogname);
 
-        Idescription = (EditText) findViewById(R.id.description);
+//        Idescription = (EditText) findViewById(R.id.description);
         spinnerprogress = (ProgressBar) findViewById(R.id.spinner_progress);
         storageReference = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS);
@@ -131,7 +122,6 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
         subproductList = new ArrayList<>();
         mainCatalogList = new ArrayList<>();
 
-        // Boolean per = isStoragePermissionGranted();
         spinnervalue();
         subspinnervalue();
         catalogspinnervalue();
@@ -145,7 +135,6 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         if (view == buttonChoose) {
 
-            // showFileChooser();
             pickImage();
 
         } else if (view == buttonUpload) {
@@ -159,16 +148,16 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
             }
 
 //            String name = editTextName.getText().toString().trim();
-            String DESC = Idescription.getText().toString().trim();
+//            String DESC = Idescription.getText().toString().trim();
 
 //            if (TextUtils.isEmpty(name)) {
 //                Toast.makeText(this, "Enter Name!", Toast.LENGTH_SHORT).show();
 //                return;
 //            }
-            if (TextUtils.isEmpty(DESC)) {
-                Toast.makeText(this, "Enter Description!", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (TextUtils.isEmpty(DESC)) {
+//                Toast.makeText(this, "Enter Description!", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 //            if (imageView.getDrawable() == null) {
 //                Toast.makeText(this, "Image Required!", Toast.LENGTH_SHORT).show();
 //                return;
@@ -283,11 +272,11 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private void setImage(Uri imagePath) {
-
-        imageView.setImageURI(imagePath);
-
-    }
+//    private void setImage(Uri imagePath) {
+//
+//        imageView.setImageURI(imagePath);
+//
+//    }
 
 
     public String getFileExtension(Uri uri) {
@@ -333,7 +322,7 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
                                         Upload upload = new Upload();
                                         upload.setMainproduct(mainitem);
                                         upload.setSubproduct(subnitem);
-                                        upload.setDesc( Idescription.getText().toString().trim());
+//                                        upload.setDesc( Idescription.getText().toString().trim());
                                         upload.setName(catalog);
                                         upload.setUrl(downloadurl);
                                         upload.setPoductId(key);
@@ -510,70 +499,69 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
         });
 
     }
-
-
-    private void sendFCMPush() {
-
-        final String SERVER_KEY = YOUR_SERVER_KEY;
-        String msg = "New Product Added";
-        String title = "Samar Floor's Notification";
-        String token = FCM_TOKEN;
-
-        JSONObject obj = null;
-        JSONObject objData = null;
-        JSONObject dataobjData = null;
-
-        try {
-            obj = new JSONObject();
-            objData = new JSONObject();
-
-            objData.put("body", msg);
-            objData.put("title", title);
-            objData.put("sound", "default");
-            objData.put("icon", "icon_name"); //   icon_name
-            objData.put("tag", token);
-            objData.put("priority", "high");
-
-            dataobjData = new JSONObject();
-            dataobjData.put("text", msg);
-            dataobjData.put("title", title);
-
-            obj.put("to", token);
-            //obj.put("priority", "high");
-
-            obj.put("notification", objData);
-            obj.put("data", dataobjData);
-            Log.e("return here>>", obj.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, Constants.FCM_PUSH_URL, obj,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.e("True", response + "");
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("False", error + "");
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Authorization", "key=" + SERVER_KEY);
-                params.put("Content-Type", "application/json");
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        int socketTimeout = 1000 * 60;// 60 seconds
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        jsObjRequest.setRetryPolicy(policy);
-        requestQueue.add(jsObjRequest);
-    }
+    
+//    private void sendFCMPush() {
+//
+//        final String SERVER_KEY = YOUR_SERVER_KEY;
+//        String msg = "New Product Added";
+//        String title = "Samar Floor's Notification";
+//        String token = FCM_TOKEN;
+//
+//        JSONObject obj = null;
+//        JSONObject objData = null;
+//        JSONObject dataobjData = null;
+//
+//        try {
+//            obj = new JSONObject();
+//            objData = new JSONObject();
+//
+//            objData.put("body", msg);
+//            objData.put("title", title);
+//            objData.put("sound", "default");
+//            objData.put("icon", "icon_name"); //   icon_name
+//            objData.put("tag", token);
+//            objData.put("priority", "high");
+//
+//            dataobjData = new JSONObject();
+//            dataobjData.put("text", msg);
+//            dataobjData.put("title", title);
+//
+//            obj.put("to", token);
+//            //obj.put("priority", "high");
+//
+//            obj.put("notification", objData);
+//            obj.put("data", dataobjData);
+//            Log.e("return here>>", obj.toString());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, Constants.FCM_PUSH_URL, obj,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        Log.e("True", response + "");
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.e("False", error + "");
+//                    }
+//                }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("Authorization", "key=" + SERVER_KEY);
+//                params.put("Content-Type", "application/json");
+//                return params;
+//            }
+//        };
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        int socketTimeout = 1000 * 60;// 60 seconds
+//        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+//        jsObjRequest.setRetryPolicy(policy);
+//        requestQueue.add(jsObjRequest);
+//    }
 
 }

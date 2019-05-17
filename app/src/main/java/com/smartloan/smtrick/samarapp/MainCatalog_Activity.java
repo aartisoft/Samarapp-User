@@ -1,9 +1,9 @@
 package com.smartloan.smtrick.samarapp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -27,6 +27,7 @@ public class MainCatalog_Activity extends AppCompatActivity {
     private String subitem, mainitem;
 
     private List<Upload> uploads;
+    private List<Upload> uploads1;
 
     private DatabaseReference mDatabase;
 
@@ -55,6 +56,7 @@ public class MainCatalog_Activity extends AppCompatActivity {
         Intent intent = getIntent();
 
         uploads = new ArrayList<>();
+        uploads1 = new ArrayList<>();
 
         mainitem = intent.getStringExtra("mianproduct");
         subitem = intent.getStringExtra("subproduct");
@@ -76,12 +78,26 @@ public class MainCatalog_Activity extends AppCompatActivity {
                 Upload upload = postSnapshot.getValue(Upload.class);
 
                 if (upload.getMainproduct().equalsIgnoreCase(mainitem) && upload.getSubproduct().equalsIgnoreCase(subitem)) {
+
                     uploads.add(upload);
+
                 }
             }
 
+            for (Upload event : uploads) {
+                boolean isFound = false;
+                // check if the event name exists in noRepeat
+                for (Upload e : uploads1) {
+                    if (e.getName().equals(event.getName()) || (e.equals(event))) {
+                        isFound = true;
+                        break;
+                    }
+                }
+                if (!isFound) uploads1.add(event);
+            }
+
             //creating adapter
-            adapter = new MainCatalog_adapter(getApplicationContext(), uploads);
+            adapter = new MainCatalog_adapter(getApplicationContext(), uploads1);
 
             //adding adapter to recyclerview
             mainCatalogRecycler.setAdapter(adapter);
