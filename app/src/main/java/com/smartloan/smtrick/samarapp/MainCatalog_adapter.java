@@ -83,12 +83,10 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                 // custom dialog
                 final Dialog dialog = new Dialog(holder.subcardView.getRootView().getContext());
                 dialog.setContentView(R.layout.customdialogbox);
-                //dialog.setTitle("Title...");
 
                 // set the custom dialog components - text, image and button
                 TextView text = (TextView) dialog.findViewById(R.id.text2);
                 text.setText(catalogList.get(position).getName());
-
 
                 Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
                 // if button is clicked, close the custom dialog

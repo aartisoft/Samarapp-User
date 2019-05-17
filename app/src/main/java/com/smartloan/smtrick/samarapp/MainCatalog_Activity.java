@@ -98,10 +98,8 @@ public class MainCatalog_Activity extends AppCompatActivity {
 
             //creating adapter
             adapter = new MainCatalog_adapter(getApplicationContext(), uploads1);
-
             //adding adapter to recyclerview
             mainCatalogRecycler.setAdapter(adapter);
-
             maincatalogprogress.setVisibility(View.GONE);
         }
 
