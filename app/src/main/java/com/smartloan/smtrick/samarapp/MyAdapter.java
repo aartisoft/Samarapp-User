@@ -125,10 +125,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                         ///////3//////
                                         try {
 
-                                            String item1 = upload.getName().toString();
+                                            String item1 = upload.getPoductId().toString();
                                             mStorage = FirebaseStorage.getInstance();
                                             DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
-                                            Query applesQuery1 = ref1.child("NewImage").orderByChild("name").equalTo(item1);
+                                            Query applesQuery1 = ref1.child("NewImage").orderByChild("poductId").equalTo(item1);
 
                                             applesQuery1.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
@@ -172,7 +172,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                         //Creating dialog box
                         AlertDialog alert = builder.create();
                         //Setting the title manually
-                        alert.setTitle("AlertDialogExample");
+                        alert.setTitle("Delete Product!");
                         alert.show();
 
                         dialog.dismiss();

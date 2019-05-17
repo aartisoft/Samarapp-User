@@ -63,11 +63,11 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
     //view objects
     private Button buttonChoose;
     private Button buttonUpload;
-  //  private EditText editTextName;
+    //  private EditText editTextName;
     private Spinner mainspinner;
     private ImageView imageView;
     private Spinner Subspinner;
-//    private EditText Idescription;
+    //    private EditText Idescription;
     private ProgressBar spinnerprogress;
 
     private Spinner spinner_catlogname;
@@ -162,7 +162,6 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
 //                Toast.makeText(this, "Image Required!", Toast.LENGTH_SHORT).show();
 //                return;
 //            }
-
             uploadFile();
 
         }
@@ -225,7 +224,6 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
                     fileDoneList.add(data.getClipData().getItemAt(i).getUri());
 
                     //String fileName = getFileName(fileUri);
-
                 }
                 uploadListAdapter = new UploadListAdapter(Upload_Image_Activity.this, fileDoneList);
                 imagesRecyclerView.setLayoutManager(new LinearLayoutManager(Upload_Image_Activity.this, LinearLayoutManager.HORIZONTAL, true));
@@ -233,6 +231,14 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
                 imagesRecyclerView.setAdapter(uploadListAdapter);
 
             } else if (data.getData() != null) {
+
+                Uri image = data.getData();
+                fileDoneList.add(image);
+
+                uploadListAdapter = new UploadListAdapter(Upload_Image_Activity.this, fileDoneList);
+                imagesRecyclerView.setLayoutManager(new LinearLayoutManager(Upload_Image_Activity.this, LinearLayoutManager.HORIZONTAL, true));
+                imagesRecyclerView.setHasFixedSize(true);
+                imagesRecyclerView.setAdapter(uploadListAdapter);
 
                 Toast.makeText(getApplicationContext(), "Selected Single File", Toast.LENGTH_SHORT).show();
 
@@ -313,7 +319,7 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         String downloadurl = uri.toString();
-                                        String key =  mDatabase.push().getKey();
+                                        String key = mDatabase.push().getKey();
 
                                         String mainitem = mainspinner.getSelectedItem().toString();
                                         String subnitem = Subspinner.getSelectedItem().toString();
@@ -499,7 +505,7 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
         });
 
     }
-    
+
 //    private void sendFCMPush() {
 //
 //        final String SERVER_KEY = YOUR_SERVER_KEY;
