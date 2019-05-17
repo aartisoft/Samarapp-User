@@ -15,15 +15,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.smartloan.smtrick.samarapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Fragment_ViewCatalogs extends Fragment
-
-{
+public class Fragment_ViewCatalogs extends Fragment {
 
     private RecyclerView catalogRecycler;
     private DatabaseReference mdataRef;
@@ -31,7 +28,7 @@ public class Fragment_ViewCatalogs extends Fragment
     private List<String> catalogList1;
     private ProgressBar catalogprogress;
 
-   // int[] animationList = {R.anim.layout_animation_up_to_down};
+    // int[] animationList = {R.anim.layout_animation_up_to_down};
     int i = 0;
 
     @Override
@@ -43,7 +40,7 @@ public class Fragment_ViewCatalogs extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_viewcatalog, container, false);
 
-       // getActivity().getActionBar().setTitle("Products");
+        // getActivity().getActionBar().setTitle("Products");
         catalogprogress = (ProgressBar) view.findViewById(R.id.catalog_progress);
         catalogRecycler = (RecyclerView) view.findViewById(R.id.catalog_recycle);
         catalogList = new ArrayList<>();
@@ -60,9 +57,9 @@ public class Fragment_ViewCatalogs extends Fragment
                     MainProducts mainProducts = mainproductSnapshot.getValue(MainProducts.class);
                     catalogList.add(mainProducts.getMainpro());
 
-                    int size = catalogList.size()-1;
+                    int size = catalogList.size() - 1;
                     catalogList1.clear();
-                    for(int i=size;i>=0;i--){
+                    for (int i = size; i >= 0; i--) {
                         catalogList1.add(catalogList.get(i));
                     }
                 }
@@ -81,13 +78,7 @@ public class Fragment_ViewCatalogs extends Fragment
             }
         });
 
-
-
-
-
         return view;
-}
-
-
+    }
 
 }

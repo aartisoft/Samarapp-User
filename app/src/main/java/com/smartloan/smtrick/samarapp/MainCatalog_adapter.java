@@ -103,7 +103,6 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
 
-                                        ///////3//////
                                         try {
 
 //                                            String item1 = upload.getName().toString();
@@ -130,17 +129,15 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                                             imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                   // Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show();
+                                                    // Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
 
 //                                            Toast.makeText(holder.imagecard.getContext(), "Delete Product Successfully", Toast.LENGTH_SHORT).show();
 //                                            uploads.clear();
 
-
                                         } catch (Exception e) {
                                         }
-
 
                                     }
                                 })
