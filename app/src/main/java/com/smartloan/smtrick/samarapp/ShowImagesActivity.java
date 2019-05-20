@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +37,8 @@ public class ShowImagesActivity extends AppCompatActivity {
     private List<Upload> uploads;
 
     private String subitem,mainitem,catName;
+    private ProgressBar CatalogProgress;
+
 
 
     @Override
@@ -48,7 +52,8 @@ public class ShowImagesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_images);
 
-
+        CatalogProgress = (ProgressBar) findViewById(R.id.mimages_progress);
+        CatalogProgress.setVisibility(View.VISIBLE);
 
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -96,7 +101,7 @@ public class ShowImagesActivity extends AppCompatActivity {
 
             //creating adapter
             adapter = new MyAdapter(getApplicationContext(), uploads);
-
+            CatalogProgress.setVisibility(View.GONE);
             //adding adapter to recyclerview
             recyclerView.setAdapter(adapter);
         }

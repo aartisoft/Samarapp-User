@@ -89,7 +89,6 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
 
                 try {
 
-
                     // custom dialog
                     final Dialog dialog1 = new Dialog(holder.cardView.getRootView().getContext());
                     dialog1.setContentView(R.layout.customdialogbox);
@@ -109,7 +108,6 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                             AlertDialog.Builder alert = new AlertDialog.Builder(holder.cardView.getContext());
                             final EditText edittext = new EditText(holder.cardView.getContext());
 
-//                            alert.setTitle(Html.fromHtml("<font color='#d10101'>Edit Main Product</font>"));
                             TextView title = new TextView(holder.cardView.getContext());
                             // You Can Customise your Title here
                             title.setText("Edit Main Product");
@@ -120,7 +118,6 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                             alert.setCustomTitle(title);
 
                             edittext.setText(catname);
-
 
                             alert.setView(edittext);
 
@@ -193,8 +190,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                                 }
 
                             });
-
-
+                            
                             alert.setNegativeButton("CANCLE", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     // what ever you want to do with No option.
