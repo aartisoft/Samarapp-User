@@ -106,9 +106,8 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                         AlertDialog.Builder alert = new AlertDialog.Builder(holder.subcardView.getContext());
                         final EditText edittext = new EditText(holder.subcardView.getContext());
 
-//                        alert.setTitle(Html.fromHtml("<font color='#d10101'>Edit Catalog Name</font>"));
                         TextView title = new TextView(holder.subcardView.getContext());
-// You Can Customise your Title here
+                        // You Can Customise your Title here
                         title.setText("Edit Catalog Name");
                         title.setPadding(10, 10, 10, 10);
                         title.setGravity(Gravity.CENTER);

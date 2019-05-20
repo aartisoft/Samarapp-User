@@ -111,7 +111,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
 
 //                            alert.setTitle(Html.fromHtml("<font color='#d10101'>Edit Main Product</font>"));
                             TextView title = new TextView(holder.cardView.getContext());
-// You Can Customise your Title here
+                            // You Can Customise your Title here
                             title.setText("Edit Main Product");
                             title.setPadding(10, 10, 10, 10);
                             title.setGravity(Gravity.CENTER);
@@ -142,7 +142,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
 
                                             for (DataSnapshot mainproductSnapshot : dataSnapshot.getChildren()) {
 
-                                              //  MainProducts mainProducts = mainproductSnapshot.getValue(MainProducts.class);
+                                                //  MainProducts mainProducts = mainproductSnapshot.getValue(MainProducts.class);
                                                 key = mainproductSnapshot.getKey();
                                                 mDatabase = FirebaseDatabase.getInstance().getReference();
                                                 mDatabase.child("MainProducts").child(key).child("mainpro").setValue(edittext.getText().toString());
@@ -231,7 +231,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                                                         if (dataSnapshot.getValue() != null) {
 
                                                             Toast.makeText(holder.cardView.getContext(), "Please Delete the Sub-Products", Toast.LENGTH_SHORT).show();
-                                                           
+
                                                         } else {
 
                                                             String item1 = list.get(position).toString();
