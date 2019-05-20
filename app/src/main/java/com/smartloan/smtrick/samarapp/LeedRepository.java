@@ -1,5 +1,7 @@
 package com.smartloan.smtrick.samarapp;
 
+import java.util.Map;
+
 public interface LeedRepository {
 
 //
@@ -17,7 +19,13 @@ public interface LeedRepository {
 //
 //    void deleteLeed(final String leedId, final CallBack callback);
 //
-//    void updateLeed(final String leedId, final Map leedMap, final CallBack callback);
+    void updateMainProduct(final String main, final Map leedMap, final CallBack callback);
+
+    void updateSubProduct(final String sub, final Map leedMap, final CallBack callback);
+
+    void updateMainCatalog(final String catalog, final Map leedMap, final CallBack callback);
+
+    void updateProduct(final String property, final Map leedMap, final CallBack callback);
 //
 //    void readLeedByLeedId(final String leedId, final CallBack callBack);
 //

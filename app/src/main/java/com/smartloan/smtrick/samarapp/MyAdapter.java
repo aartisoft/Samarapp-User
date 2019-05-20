@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -110,6 +112,35 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 
                 Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+//                Button dialogEditButton = (Button) dialog.findViewById(R.id.dialogButtonEDIT);
+//
+//                dialogEditButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        AlertDialog.Builder alert = new AlertDialog.Builder(holder.imagecard.getContext());
+//                        final EditText edittext = new EditText(holder.imagecard.getContext());
+//                        alert.setMessage("Edit");
+//                        alert.setTitle("Edit Catalog Name");
+//
+//                        alert.setView(edittext);
+//
+//                        alert.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int whichButton) {
+//
+//                            }
+//                        });
+//
+//                        alert.setNegativeButton("CANCLE", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int whichButton) {
+//                                // what ever you want to do with No option.
+//                            }
+//                        });
+//
+//                        alert.show();
+//
+//                    }
+//                });
+
                 // if button is clicked, close the custom dialog
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -149,11 +180,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                             imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
 
-                                            Toast.makeText(holder.imagecard.getContext(), "Delete Product Successfully", Toast.LENGTH_SHORT).show();
+                                            Toast toast = Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT);
+                                            View view = toast.getView();
+
+//Gets the actual oval background of the Toast then sets the colour filter
+                                            view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                                            toast.show();
                                             uploads.clear();
 
 
@@ -195,7 +230,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             @Override
             public void onSuccess(Object object) {
 
-                Toast.makeText(context,"updated",Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(context,"updated",Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(context, "updated", Toast.LENGTH_SHORT);
+                View view = toast.getView();
+
+//Gets the actual oval background of the Toast then sets the colour filter
+                view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                toast.show();
 
             }
 

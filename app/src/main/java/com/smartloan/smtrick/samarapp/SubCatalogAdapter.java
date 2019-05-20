@@ -4,14 +4,17 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +37,8 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
     private List<String> sublist;
     String mainproductname;
     private FirebaseStorage mStorage;
+    private DatabaseReference mDatabase;
+    String key;
 
     public SubCatalogAdapter(List<String> catalogList, String mainproductname) {
         this.mainproductname = mainproductname;
@@ -84,6 +89,81 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
 
                 // set the custom dialog components - text, image and button
                 TextView text = (TextView) dialog1.findViewById(R.id.text2);
+
+                Button dialogEditButton = (Button) dialog1.findViewById(R.id.dialogButtonEDIT);
+
+                dialogEditButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(holder.subcardView.getContext());
+                        final EditText edittext = new EditText(holder.subcardView.getContext());
+//                        alert.setMessage("Edit");
+//                        alert.setTitle("Edit Sub-Product Name");
+                        alert.setTitle(Html.fromHtml("<font color='#d10101'>Edit Sub-Product Name</font>"));
+                        edittext.setText(subcatname);
+
+                        alert.setView(edittext);
+
+                        alert.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                //What ever you want to do with the value
+                                Query query4 = FirebaseDatabase.getInstance().getReference("NewImage")
+                                        .orderByChild("subproduct")
+                                        .equalTo(subcatname);
+                                Query query5 = FirebaseDatabase.getInstance().getReference("SubProducts")
+                                        .orderByChild("subproduct")
+                                        .equalTo(subcatname);
+
+                                query4.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        for (DataSnapshot mainproductSnapshot : dataSnapshot.getChildren()) {
+                                            key = mainproductSnapshot.getKey();
+                                            mDatabase = FirebaseDatabase.getInstance().getReference();
+                                            mDatabase.child("NewImage").child(key).child("subproduct").setValue(edittext.getText().toString());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                                query5.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        for (DataSnapshot mainproductSnapshot : dataSnapshot.getChildren()) {
+                                            key = mainproductSnapshot.getKey();
+                                            mDatabase = FirebaseDatabase.getInstance().getReference();
+                                            mDatabase.child("SubProducts").child(key).child("subproduct").setValue(edittext.getText().toString());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        alert.setNegativeButton("CANCLE", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // what ever you want to do with No option.
+                                dialog1.cancel();
+                            }
+                        });
+
+                        alert.show();
+
+                    }
+                });
+
                 text.setText(subcatname);
 
 

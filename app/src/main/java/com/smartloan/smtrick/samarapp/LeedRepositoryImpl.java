@@ -1,6 +1,9 @@
 package com.smartloan.smtrick.samarapp;
 
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+
+import java.util.Map;
 
 public class LeedRepositoryImpl extends FirebaseTemplateRepository implements LeedRepository {
 //    @Override
@@ -92,22 +95,70 @@ public class LeedRepositoryImpl extends FirebaseTemplateRepository implements Le
 //        fireBaseDelete(databaseReference, callback);
 //    }
 //
-//    @Override
-//    public void updateLeed(String leedId, Map leedMap, final CallBack callBack) {
-//        final DatabaseReference databaseReference = Constant.LEEDS_TABLE_REF.child(leedId);
-//        fireBaseUpdateChildren(databaseReference, leedMap, new CallBack() {
-//            @Override
-//            public void onSuccess(Object object) {
-//                callBack.onSuccess(object);
-//            }
-//
-//            @Override
-//            public void onError(Object object) {
-//                callBack.onError(object);
-//            }
-//        });
-//    }
+    @Override
+    public void updateMainProduct(String mian, Map leedMap, final CallBack callBack) {
+        final DatabaseReference databaseReference = Constant.MAIN_PRODUCT_TABLE.child(mian);
+        final Query query = Constant.LEEDS_TABLE_REF.orderByChild("createdBy").equalTo(mian);
+        fireBaseUpdateChildren(databaseReference, leedMap, new CallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                callBack.onSuccess(object);
+            }
 
+            @Override
+            public void onError(Object object) {
+                callBack.onError(object);
+            }
+        });
+    }
+
+    @Override
+    public void updateSubProduct(String sub, Map leedMap, final CallBack callBack) {
+        final DatabaseReference databaseReference = Constant.SUB_PRODUCT_TABLE.child(sub);
+        fireBaseUpdateChildren(databaseReference, leedMap, new CallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                callBack.onSuccess(object);
+            }
+
+            @Override
+            public void onError(Object object) {
+                callBack.onError(object);
+            }
+        });
+    }
+
+    @Override
+    public void updateMainCatalog(String catalog, Map leedMap, final CallBack callBack) {
+        final DatabaseReference databaseReference = Constant.MAIN_CATALOG_TABLE.child(catalog);
+        fireBaseUpdateChildren(databaseReference, leedMap, new CallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                callBack.onSuccess(object);
+            }
+
+            @Override
+            public void onError(Object object) {
+                callBack.onError(object);
+            }
+        });
+    }
+
+    @Override
+    public void updateProduct(String property, Map leedMap, final CallBack callBack) {
+        final DatabaseReference databaseReference = Constant.NEW_IMAGES_TABLE.child(property);
+        fireBaseUpdateChildren(databaseReference, leedMap, new CallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                callBack.onSuccess(object);
+            }
+
+            @Override
+            public void onError(Object object) {
+                callBack.onError(object);
+            }
+        });
+    }
 
 //    public void readLeedsByStatus(String status, final CallBack callBack) {
 //        final Query query = Constant.LEEDS_TABLE_REF.orderByChild("status").equalTo(status);

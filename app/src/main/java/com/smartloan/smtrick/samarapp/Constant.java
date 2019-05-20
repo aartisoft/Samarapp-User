@@ -71,4 +71,9 @@ public class Constant {
     public static final int REQUEST_CODE = 101;
     public static final int RESULT_CODE = 201;
     //****************************************************************
+
+    public static final DatabaseReference MAIN_PRODUCT_TABLE = DATABASE.getReference("MainProducts");
+    public static final DatabaseReference SUB_PRODUCT_TABLE = DATABASE.getReference("SubProducts");
+    public static final DatabaseReference NEW_IMAGES_TABLE = DATABASE.getReference("NewImage");
+    public static final DatabaseReference MAIN_CATALOG_TABLE = DATABASE.getReference("MainCatalogs");
 }

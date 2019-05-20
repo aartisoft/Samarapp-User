@@ -72,6 +72,7 @@ public class MainCatalog_Activity extends AppCompatActivity {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             uploads.clear();
+            uploads1.clear();
             maincatalogprogress.setVisibility(View.INVISIBLE);
             //iterating through all the values in database
             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -84,6 +85,7 @@ public class MainCatalog_Activity extends AppCompatActivity {
                 }
             }
 
+
             for (Upload event : uploads) {
                 boolean isFound = false;
                 // check if the event name exists in noRepeat
@@ -93,6 +95,7 @@ public class MainCatalog_Activity extends AppCompatActivity {
                         break;
                     }
                 }
+
                 if (!isFound) uploads1.add(event);
             }
 
