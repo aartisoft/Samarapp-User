@@ -133,7 +133,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                                     Query query5 = FirebaseDatabase.getInstance().getReference("SubProducts")
                                             .orderByChild("mainproduct")
                                             .equalTo(catname);
-                                    query3.addValueEventListener(new ValueEventListener() {
+                                    query3.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -143,6 +143,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                                                 key = mainproductSnapshot.getKey();
                                                 mDatabase = FirebaseDatabase.getInstance().getReference();
                                                 mDatabase.child("MainProducts").child(key).child("mainpro").setValue(edittext.getText().toString());
+                                                dialog1.cancel();
                                             }
                                         }
 
@@ -152,7 +153,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                                         }
                                     });
 
-                                    query4.addValueEventListener(new ValueEventListener() {
+                                    query4.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -169,7 +170,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                                         }
                                     });
 
-                                    query5.addValueEventListener(new ValueEventListener() {
+                                    query5.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -190,7 +191,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                                 }
 
                             });
-                            
+
                             alert.setNegativeButton("CANCLE", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     // what ever you want to do with No option.

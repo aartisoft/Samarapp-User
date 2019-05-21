@@ -40,6 +40,7 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
     private FirebaseStorage mStorage;
     private DatabaseReference mDatabase;
     String key2;
+    String key1;
 
     public MainCatalog_adapter(Context applicationContext, List<Upload> uploads) {
         this.mContext = applicationContext;
@@ -120,7 +121,7 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                         alert.setView(edittext);
 
                         alert.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
+                            public void onClick(final DialogInterface dialog, int whichButton) {
                                 //What ever you want to do with the value
                                 Query query4 = FirebaseDatabase.getInstance().getReference("NewImage")
                                         .orderByChild("name")
@@ -129,7 +130,26 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                                         .orderByChild("maincat")
                                         .equalTo(subcatname);
 
-                                query4.addValueEventListener(new ValueEventListener() {
+                                query6.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        for (DataSnapshot catalogSnapshot : dataSnapshot.getChildren()) {
+                                            key1 = catalogSnapshot.getKey();
+                                            mDatabase = FirebaseDatabase.getInstance().getReference();
+                                            mDatabase.child("MainCatalogs").child(key1).child("maincat").setValue(edittext.getText().toString());
+                                            dialog.cancel();
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                                query4.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -150,22 +170,6 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                                     }
                                 });
 
-                                query6.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        for (DataSnapshot mainproductSnapshot : dataSnapshot.getChildren()) {
-                                            key2 = mainproductSnapshot.getKey();
-                                            mDatabase = FirebaseDatabase.getInstance().getReference();
-                                            mDatabase.child("MainCatalogs").child(key2).child("maincat").setValue(edittext.getText().toString());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
 
                             }
                         });

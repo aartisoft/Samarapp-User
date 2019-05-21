@@ -122,7 +122,7 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
                                         .orderByChild("subproduct")
                                         .equalTo(subcatname);
 
-                                query4.addValueEventListener(new ValueEventListener() {
+                                query4.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -139,7 +139,7 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
                                     }
                                 });
 
-                                query5.addValueEventListener(new ValueEventListener() {
+                                query5.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -147,6 +147,7 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
                                             key = mainproductSnapshot.getKey();
                                             mDatabase = FirebaseDatabase.getInstance().getReference();
                                             mDatabase.child("SubProducts").child(key).child("subproduct").setValue(edittext.getText().toString());
+                                            dialog1.cancel();
                                         }
                                     }
 

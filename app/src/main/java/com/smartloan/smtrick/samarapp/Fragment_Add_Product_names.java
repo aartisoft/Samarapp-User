@@ -36,6 +36,7 @@ public class Fragment_Add_Product_names extends Fragment implements View.OnClick
     private Button AddmainData;
     private List<String> mainproductlist;
     private List<String> subproductlist;
+    private List<String> cataloglist;
     MainProducts mainProducts;
     private DatabaseReference mDatabaseRefcatalog;
 
@@ -64,6 +65,7 @@ public class Fragment_Add_Product_names extends Fragment implements View.OnClick
         spinner = (Spinner) view.findViewById(R.id.mainspinner);
         mainproductlist = new ArrayList<>();
         subproductlist = new ArrayList<>();
+        cataloglist = new ArrayList<>();
 
         mDatabaseRefSub = FirebaseDatabase.getInstance().getReference("SubProducts");
         mDatabaseRefMain = FirebaseDatabase.getInstance().getReference("MainProducts");
@@ -127,6 +129,27 @@ public class Fragment_Add_Product_names extends Fragment implements View.OnClick
 
                     }
                 });
+
+            mDatabaseRefcatalog.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange (@NonNull DataSnapshot dataSnapshot){
+                    cataloglist.clear();
+                    for (DataSnapshot mainproductSnapshot : dataSnapshot.getChildren()) {
+
+                        MainCatalog mainsubproducts = mainproductSnapshot.getValue(MainCatalog.class);
+
+
+                        cataloglist.add(mainsubproducts.getMaincat());
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled (@NonNull DatabaseError databaseError){
+
+                }
+            });
 
 
             AddsubData.setOnClickListener(this);
@@ -264,11 +287,11 @@ public class Fragment_Add_Product_names extends Fragment implements View.OnClick
 
                     try {
 
-                        for (int i = 0; i <= mainproductlist.size(); i++) {
-                            String mainpro = (mainproductlist.get(i));
+                        for (int i = 0; i <= cataloglist.size(); i++) {
+                            String mainpro = (cataloglist.get(i));
 
 
-                            if (floortype.equals(mainpro)) {
+                            if (floortype.equalsIgnoreCase(mainpro)) {
                                 productPresent = true;
                                 break;
                             }
