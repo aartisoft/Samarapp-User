@@ -23,11 +23,17 @@ public class MainCatalog_Activity extends AppCompatActivity {
 
     RecyclerView mainCatalogRecycler;
     ProgressBar maincatalogprogress;
+    private String name;
+
 
     private String subitem, mainitem;
 
     private List<Upload> uploads;
     private List<Upload> uploads1;
+
+
+
+    private List<MainCatalog> maincat;
 
     private DatabaseReference mDatabase;
 
@@ -47,28 +53,68 @@ public class MainCatalog_Activity extends AppCompatActivity {
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        Intent intent = getIntent();
+        name = intent.getStringExtra("subproduct");
+
+        getSupportActionBar().setTitle(name);
+
         mainCatalogRecycler = (RecyclerView) findViewById(R.id.maincatalog_recycle);
         mainCatalogRecycler.setHasFixedSize(true);
         mainCatalogRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         maincatalogprogress = (ProgressBar) findViewById(R.id.maincatalog_progress);
 
-        Intent intent = getIntent();
 
         uploads = new ArrayList<>();
         uploads1 = new ArrayList<>();
+        maincat = new ArrayList<>();
 
         mainitem = intent.getStringExtra("mianproduct");
         subitem = intent.getStringExtra("subproduct");
 
         mDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS);
+        Query query1 = FirebaseDatabase.getInstance().getReference("MainCatalogs").orderByChild("subpro").equalTo(subitem);
 
-        Query query = FirebaseDatabase.getInstance().getReference("NewImage").orderByChild("subproduct").equalTo(subitem);
+        query1.addValueEventListener(valueEventListener);
 
-        query.addValueEventListener(valueEventListener);
+
     }
 
+
     ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            uploads.clear();
+            uploads1.clear();
+            maincatalogprogress.setVisibility(View.INVISIBLE);
+            //iterating through all the values in database
+            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                MainCatalog upload = postSnapshot.getValue(MainCatalog.class);
+
+                if (upload.getMainpro().equalsIgnoreCase(mainitem) && upload.getSubpro().equalsIgnoreCase(subitem)) {
+
+                    maincat.add(upload);
+
+                }
+            }
+
+            Query query = FirebaseDatabase.getInstance().getReference("NewImage").orderByChild("subproduct").equalTo(subitem);
+
+            query.addValueEventListener(valueEventListener1);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            maincatalogprogress.setVisibility(View.INVISIBLE);
+
+        }
+    };
+
+
+
+
+    ValueEventListener valueEventListener1 = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             uploads.clear();
@@ -100,7 +146,7 @@ public class MainCatalog_Activity extends AppCompatActivity {
             }
 
             //creating adapter
-            adapter = new MainCatalog_adapter(getApplicationContext(), uploads1);
+            adapter = new MainCatalog_adapter(getApplicationContext(), uploads1, maincat);
             //adding adapter to recyclerview
             mainCatalogRecycler.setAdapter(adapter);
             maincatalogprogress.setVisibility(View.GONE);

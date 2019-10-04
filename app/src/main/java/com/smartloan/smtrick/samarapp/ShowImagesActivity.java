@@ -38,6 +38,7 @@ public class ShowImagesActivity extends AppCompatActivity {
 
     private String subitem,mainitem,catName;
     private ProgressBar CatalogProgress;
+    private String name;
 
 
 
@@ -52,6 +53,8 @@ public class ShowImagesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_images);
 
+        Intent intent = getIntent();
+
         CatalogProgress = (ProgressBar) findViewById(R.id.mimages_progress);
         CatalogProgress.setVisibility(View.VISIBLE);
 
@@ -61,16 +64,13 @@ public class ShowImagesActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        Intent intent = getIntent();
-
         mainitem = intent.getStringExtra("mianproduct");
         subitem = intent.getStringExtra("subproduct");
         catName = intent.getStringExtra("catname");
 
         progressDialog = new ProgressDialog(this);
 
-        getSupportActionBar().setTitle(subitem);  // provide compatibility to all the versions
+        getSupportActionBar().setTitle(catName);  // provide compatibility to all the versions
 
 
         uploads = new ArrayList<>();

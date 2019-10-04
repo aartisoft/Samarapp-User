@@ -37,15 +37,16 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
 
     Context mContext;
     List<Upload> catalogList;
+    List<MainCatalog> maincatalogList;
     private FirebaseStorage mStorage;
     private DatabaseReference mDatabase;
     String key2;
     String key1;
 
-    public MainCatalog_adapter(Context applicationContext, List<Upload> uploads) {
+    public MainCatalog_adapter(Context applicationContext, List<Upload> uploads, List<MainCatalog> main) {
         this.mContext = applicationContext;
         this.catalogList = uploads;
-
+        this.maincatalogList = main;
     }
 
     @NonNull
@@ -59,16 +60,20 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
 
     @Override
     public void onBindViewHolder(@NonNull final MainCatalog_adapter.ViewHolder holder, final int position) {
+//        String cat = null;
+//        for (int i = 0; i < maincatalogList.size(); i++) {
+//           cat = maincatalogList.get(i).getMaincat();
+//        }
 
         final String subcatname = catalogList.get(position).getName();
         final String key = catalogList.get(position).getPoductId();
         holder.catalogSubname.setText(subcatname);
 
-        if (position % 2 == 0) {
-            holder.catalogSubname.setBackgroundResource(R.drawable.samarfloorred);
-        } else {
-            holder.catalogSubname.setBackgroundResource(R.drawable.samarfloorred);
-        }
+//        if (position % 2 == 0) {
+//            holder.catalogSubname.setBackgroundResource(R.drawable.samarfloorred);
+//        } else {
+//            holder.catalogSubname.setBackgroundResource(R.drawable.samarfloorred);
+//        }
 
         holder.subcardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +201,7 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                         builder.setMessage("Do you want to delete the record")
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
+                                    public void onClick(final DialogInterface dialog, int id) {
 
                                         try {
 
@@ -210,7 +215,7 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                                     for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
                                                         appleSnapshot.getRef().removeValue();
-
+                                                        dialog.dismiss();
                                                     }
                                                 }
 

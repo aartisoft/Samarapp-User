@@ -11,7 +11,7 @@
     <item
         android:id="@+id/action_crop"
         android:orderInCategory="100"
-        android:title="Crop"
-        android:icon="@android:drawable/ic_menu_crop"
+        android:title="Save"
+
         app:showAsAction="always" />
 </menu>

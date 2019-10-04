@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -54,9 +56,10 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
     private static final int REQUEST_CROP_IMAGE = 2342;
 
     private List<Uri> fileDoneList;
+    private List<Uri> cropedfileDoneList;
 
     private UploadListAdapter uploadListAdapter;
-    RecyclerView imagesRecyclerView;
+    RecyclerView imagesRecyclerView, cropedimagesRecyclerView;
     //constant to track image chooser intent
     private static final int PICK_IMAGE_REQUEST = 234;
 
@@ -71,6 +74,7 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
     private ProgressBar spinnerprogress;
 
     private Spinner spinner_catlogname;
+    private CardView imagecard;
 
     //uri to store file
     private Uri filePath;
@@ -86,6 +90,7 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
     private DatabaseReference mDatabasecatalog;
 
     LeedRepository leedRepository;
+    TextView cropedimages;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -104,7 +109,9 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
         leedRepository = new LeedRepositoryImpl();
 
         imagesRecyclerView = (RecyclerView) findViewById(R.id.imageRecyclerView);
+        cropedimagesRecyclerView = (RecyclerView) findViewById(R.id.cropedimageRecyclerView);
         fileDoneList = new ArrayList<>();
+        cropedfileDoneList = new ArrayList<>();
 
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
@@ -112,6 +119,7 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
         mainspinner = (Spinner) findViewById(R.id.spinner_mainProduct);
         Subspinner = (Spinner) findViewById(R.id.spinner_Subproduct);
         spinner_catlogname = (Spinner) findViewById(R.id.spinner_catlogname);
+        cropedimages = (TextView) findViewById(R.id.textcropedimages);
 
 //        Idescription = (EditText) findViewById(R.id.description);
         spinnerprogress = (ProgressBar) findViewById(R.id.spinner_progress);
@@ -124,7 +132,17 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
 
         spinnervalue();
         subspinnervalue();
-        catalogspinnervalue();
+
+        int a = 0;
+        try {
+
+             a = uploadListAdapter.getItemCount();
+        }catch (Exception e){}
+        if (a == 0) {
+            cropedimages.setText("");
+        }else {
+//            cropedimages.setText("CROPED IMAGES");
+        }
 
         buttonChoose.setOnClickListener(this);
         buttonUpload.setOnClickListener(this);
@@ -268,12 +286,20 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
             int pos = fileDoneList.indexOf(u);
 
             fileDoneList.remove(pos);
-            fileDoneList.add(filePath);
+//            fileDoneList.add(filePath);
+            cropedfileDoneList.add(filePath);
 
             uploadListAdapter = new UploadListAdapter(Upload_Image_Activity.this, fileDoneList);
             imagesRecyclerView.setLayoutManager(new LinearLayoutManager(Upload_Image_Activity.this, LinearLayoutManager.HORIZONTAL, true));
             imagesRecyclerView.setHasFixedSize(true);
             imagesRecyclerView.setAdapter(uploadListAdapter);
+
+            cropedimages.setText("CROPED IMAGES");
+
+            uploadListAdapter = new UploadListAdapter(Upload_Image_Activity.this, cropedfileDoneList);
+            cropedimagesRecyclerView.setLayoutManager(new LinearLayoutManager(Upload_Image_Activity.this, LinearLayoutManager.HORIZONTAL, true));
+            cropedimagesRecyclerView.setHasFixedSize(true);
+            cropedimagesRecyclerView.setAdapter(uploadListAdapter);
 
         }
     }
@@ -416,6 +442,8 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
                         android.R.layout.simple_spinner_item, mainproductList);
                 mainadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 mainspinner.setAdapter(mainadapter);
+
+
             }
 
             @Override
@@ -459,13 +487,25 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
                     subproductList.add(subproducts2.getSubproduct());
                 }
                 // subCatalogAdapter.notifyDataSetChanged();
+            } else {
+                subproductList.clear();
+            }
+            if (!subproductList.isEmpty()) {
+                ArrayAdapter<String> subadapter = new ArrayAdapter<String>(getBaseContext(),
+                        android.R.layout.simple_spinner_item, subproductList);
+                subadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                Subspinner.setAdapter(subadapter);
+            } else {
+                subproductList.add("null");
+                ArrayAdapter<String> subadapter = new ArrayAdapter<String>(getBaseContext(),
+                        android.R.layout.simple_spinner_item, subproductList);
+                subadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                Subspinner.setAdapter(subadapter);
             }
 
-            ArrayAdapter<String> subadapter = new ArrayAdapter<String>(getBaseContext(),
-                    android.R.layout.simple_spinner_item, subproductList);
-            subadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            Subspinner.setAdapter(subadapter);
             spinnerprogress.setVisibility(View.GONE);
+            catalogspinnervalue();
+
         }
 
         @Override
@@ -482,24 +522,55 @@ public class Upload_Image_Activity extends AppCompatActivity implements View.OnC
 
     public void catalogspinnervalue() {
 
-        mDatabasecatalog = FirebaseDatabase.getInstance().getReference("MainCatalogs");
-        mDatabasecatalog.addValueEventListener(new ValueEventListener() {
+        final String main1 = mainspinner.getSelectedItem().toString();
+
+        Subspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                final String sub = Subspinner.getSelectedItem().toString();
 
-                for (DataSnapshot mainproduct2Snapshot : dataSnapshot.getChildren()) {
+                mDatabasecatalog = FirebaseDatabase.getInstance().getReference("MainCatalogs");
+                mDatabasecatalog.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            mainCatalogList.clear();
+                            for (DataSnapshot mainproduct2Snapshot : dataSnapshot.getChildren()) {
 
-                    MainCatalog catalog = mainproduct2Snapshot.getValue(MainCatalog.class);
-                    mainCatalogList.add(catalog.getMaincat());
-                }
-                ArrayAdapter<String> mainadapter = new ArrayAdapter<String>(getBaseContext(),
-                        android.R.layout.simple_spinner_item, mainCatalogList);
-                mainadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_catlogname.setAdapter(mainadapter);
+                                MainCatalog catalog = mainproduct2Snapshot.getValue(MainCatalog.class);
+                                if (catalog.getMainpro().equalsIgnoreCase(main1) &&
+                                        catalog.getSubpro().equalsIgnoreCase(sub)) {
+                                    mainCatalogList.add(catalog.getMaincat());
+                                }
+                            }
+                        } else {
+                            mainCatalogList.clear();
+                        }
+
+                        if (!mainCatalogList.isEmpty()) {
+                            ArrayAdapter<String> mainadapter = new ArrayAdapter<String>(getBaseContext(),
+                                    android.R.layout.simple_spinner_item, mainCatalogList);
+                            mainadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner_catlogname.setAdapter(mainadapter);
+                        } else {
+                            mainCatalogList.add("null");
+                            ArrayAdapter<String> mainadapter = new ArrayAdapter<String>(getBaseContext(),
+                                    android.R.layout.simple_spinner_item, mainCatalogList);
+                            mainadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner_catlogname.setAdapter(mainadapter);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });

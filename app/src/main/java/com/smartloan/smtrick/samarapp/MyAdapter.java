@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -69,11 +70,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.imagecard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent shared = new Intent(holder.imagecard.getContext(), sharedtransitionActivity.class);
-                shared.putExtra("url", upload.getUrl());
-                ActivityOptions options = ActivityOptions.makeCustomAnimation(context, R.anim.slide_in, R.anim.slide_out);
-                holder.imagecard.getContext().startActivity(shared, options.toBundle());
+//                Intent shared = new Intent(holder.imagecard.getContext(), sharedtransitionActivity.class);
+//                shared.putExtra("url", upload.getUrl());
+//                ActivityOptions options = ActivityOptions.makeCustomAnimation(context, R.anim.slide_in, R.anim.slide_out);
+//                holder.imagecard.getContext().startActivity(shared, options.toBundle());
 
+                final Dialog dialog = new Dialog(holder.imagecard.getContext());
+                dialog.setContentView(R.layout.customdialogboximagedisplay);
+
+
+                final ImageView image = (ImageView) dialog.findViewById(R.id.floorimage);
+                Glide.with(holder.imagecard.getContext())
+                        .load(upload.getUrl())
+                        .placeholder(R.drawable.loading)
+                        .into(image);
+
+                dialog.show();
+                Window window = dialog.getWindow();
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             }
         });
@@ -103,12 +117,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                 // custom dialog
                 final Dialog dialog = new Dialog(holder.imagecard.getRootView().getContext());
-                dialog.setContentView(R.layout.customdialogbox);
+                dialog.setContentView(R.layout.customdialogboxcatlog);
                 //dialog.setTitle("Title...");
 
                 // set the custom dialog components - text, image and button
                 TextView text = (TextView) dialog.findViewById(R.id.text2);
-                text.setText(upload.getName());
+                text.setText(upload.getDesc());
 
 
                 Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);

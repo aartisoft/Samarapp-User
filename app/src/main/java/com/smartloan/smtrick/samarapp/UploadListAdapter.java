@@ -3,7 +3,9 @@ package com.smartloan.smtrick.samarapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +21,14 @@ import java.util.List;
  * Created by akshayejh on 19/12/17.
  */
 
-public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.ViewHolder>{
+public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.ViewHolder> {
 
-  //  public List<String> fileNameList;
+    //  public List<String> fileNameList;
     public List<Uri> fileDoneList;
-    Context mContext,nContext;
+    Context mContext, nContext;
     private static final int REQUEST_CROP_IMAGE = 2342;
 
-    public UploadListAdapter(Context fileNameList, List<Uri> fileDoneList){
+    public UploadListAdapter(Context fileNameList, List<Uri> fileDoneList) {
 
         this.mContext = fileNameList;
         this.fileDoneList = fileDoneList;
@@ -60,8 +62,11 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
                 Intent intent = new Intent(holder.fileDoneView.getContext(), CropImageActivity.class);
                 intent.putExtra(CropImageActivity.EXTRA_IMAGE_URI, uri.toString());
                 ((Activity) nContext).startActivityForResult(intent, REQUEST_CROP_IMAGE);
+
+                holder.imagecard.setBackgroundColor(Color.GRAY);
             }
         });
+
 
     }
 
@@ -77,6 +82,7 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
 
         public TextView fileNameView;
         public ImageView fileDoneView;
+        public CardView imagecard;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -84,7 +90,7 @@ public class UploadListAdapter extends RecyclerView.Adapter<UploadListAdapter.Vi
             mView = itemView;
 
             fileDoneView = (ImageView) mView.findViewById(R.id.upload_icon);
-
+            imagecard = (CardView) mView.findViewById(R.id.newcardimage);
         }
 
     }

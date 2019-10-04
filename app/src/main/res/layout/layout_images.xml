@@ -1,76 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2.5dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2.5dp"
-        android:layout_marginLeft="2.5dp"
-        android:layout_marginRight="2.5dp">
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        android:layoutAnimation="@anim/layout_animation_right_to_left">
 
         <RelativeLayout
-
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-
-            <!--<LinearLayout-->
-                <!--android:id="@+id/layout1"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@color/colorPrimary">-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/textViewName"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Name"-->
-                    <!--android:layout_margin="6dp"-->
-                    <!--android:textAlignment="center"-->
-                    <!--android:transitionName="text1transition"-->
-                    <!--android:textSize="20dp"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:textStyle="bold" />-->
-                <!---->
-            <!--</LinearLayout>-->
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:transitionName="imagetransition"
-                android:scaleType="fitXY" />
+                 />
 
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_below="@id/imageView"
-                android:padding="4dp"
-                android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <!--<EditText-->
+                    <!--android:id="@+id/textViewdescription"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--android:paddingTop="10dp"-->
+                    <!--android:inputType="textMultiLine"-->
+                    <!--android:background="@null"-->
+                    <!--android:textColor="@color/colorPrimary" />-->
+
                 <EditText
                     android:id="@+id/textViewdescription"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="5dp"
-                    android:inputType="textMultiLine"
-                    android:background="@null"
-                    android:textColor="@color/white" />
+                    android:layout_marginTop="5.0dip"
+                    android:layout_marginBottom="5.0dip"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/edittextanimation1"
+                    android:padding="10.0dip"
+                    android:text=""
+                    android:textColor="@color/bg_register"
+                    android:textSize="14.0dip" />
 
                 <Button
                     android:id="@+id/Edit_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Edit"/>
+                    android:text="Edit"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colorPrimary"/>
 
             </LinearLayout>
 

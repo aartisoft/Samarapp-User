@@ -59,11 +59,11 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
         final String subcatname = sublist.get(position);
         holder.catalogSubname.setText(subcatname);
 
-        if (position % 2 == 0) {
-            holder.catalogSubname.setBackgroundResource(R.drawable.samarfloorred);
-        } else {
-            holder.catalogSubname.setBackgroundResource(R.drawable.samarfloorred);
-        }
+//        if (position % 2 == 0) {
+//            holder.catalogSubname.setBackgroundResource(R.drawable.samarfloorred);
+//        } else {
+//            holder.catalogSubname.setBackgroundResource(R.drawable.samarfloorred);
+//        }
 
         holder.subcardView.setOnClickListener(new View.OnClickListener() {
             @Override

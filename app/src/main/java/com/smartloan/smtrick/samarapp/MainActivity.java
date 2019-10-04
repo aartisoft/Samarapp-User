@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.products) {
             getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,
                     new Fragment_Add_Product_names()).commit();
+
         } else if (id == R.id.upload) {
 //            getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,
 //                   new Fragment_UploadImage()).commit();
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.view_catalogs) {
             getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,
                     new Fragment_ViewCatalogs()).commit();
+
         } else if (id == R.id.logout) {
 
            //  clearDataWithSignOut();

@@ -61,13 +61,13 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
         holder.catalogname.setText(catname);
 
 
-        if (position % 2 == 0) {
-            //holder.catalogname.setBackgroundColor(Color.parseColor("#4c4c4c"));
-            holder.catalogname.setBackgroundResource(R.drawable.samarfloorgray);
-        } else {
-            //holder.catalogname.setBackgroundColor(Color.parseColor("#ff6861"));
-            holder.catalogname.setBackgroundResource(R.drawable.samarfloorgray);
-        }
+//        if (position % 2 == 0) {
+//            //holder.catalogname.setBackgroundColor(Color.parseColor("#4c4c4c"));
+//            holder.catalogname.setBackgroundResource(R.drawable.samarfloorgray);
+//        } else {
+//            //holder.catalogname.setBackgroundColor(Color.parseColor("#ff6861"));
+//            holder.catalogname.setBackgroundResource(R.drawable.samarfloorgray);
+//        }
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -313,6 +313,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                                                                             appleSnapshot.getRef().removeValue();
                                                                             Toast.makeText(holder.catalogname.getContext(), "Delete Product Successfully", Toast.LENGTH_SHORT).show();
                                                                             list.clear();
+                                                                            dialog1.dismiss();
                                                                         }
                                                                     }
 

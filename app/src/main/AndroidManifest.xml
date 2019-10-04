@@ -51,7 +51,8 @@
             android:label="@string/title_activity_reset_password"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".ShowImagesActivity" />
+        <activity android:name=".ShowImagesActivity"
+            android:windowSoftInputMode="stateHidden"/>
 
         <activity android:name=".SubCatalogActivity" />
 
