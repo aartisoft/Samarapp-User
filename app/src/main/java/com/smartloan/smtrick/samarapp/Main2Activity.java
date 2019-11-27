@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.shrikanthravi.customnavigationdrawer2.data.MenuItem;
 import com.shrikanthravi.customnavigationdrawer2.widget.SNavigationDrawer;
 
@@ -84,6 +85,9 @@ public class Main2Activity extends AppCompatActivity {
                     case 3:{
                         color1 = R.color.blue;
 //                        fragmentClass = MusicFragment.class;
+                        FirebaseAuth.getInstance().signOut();
+                        finish();
+                        startActivity(new Intent(Main2Activity.this, LoginActivity.class));
                         break;
                     }
 

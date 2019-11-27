@@ -59,18 +59,10 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
         final String subcatname = sublist.get(position);
         holder.catalogSubname.setText(subcatname);
 
-//        if (position % 2 == 0) {
-//            holder.catalogSubname.setBackgroundResource(R.drawable.samarfloorred);
-//        } else {
-//            holder.catalogSubname.setBackgroundResource(R.drawable.samarfloorred);
-//        }
-
         holder.subcardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Do on click stuff
-//                Toast.makeText(holder.catalogSubname.getContext(), sublist.get(position),
-//                        Toast.LENGTH_SHORT).show();
                 Intent subintent = new Intent(holder.catalogSubname.getContext(), MainCatalog_Activity.class);
                 subintent.putExtra("mianproduct", mainproductname);
                 subintent.putExtra("subproduct", subcatname);
@@ -107,9 +99,7 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
                         title.setTextColor(Color.RED);
                         title.setTextSize(20);
                         alert.setCustomTitle(title);
-
                         edittext.setText(subcatname);
-
                         alert.setView(edittext);
 
                         alert.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
@@ -156,7 +146,6 @@ public class SubCatalogAdapter extends RecyclerView.Adapter<SubCatalogAdapter.Vi
 
                                     }
                                 });
-
 
                             }
                         });
