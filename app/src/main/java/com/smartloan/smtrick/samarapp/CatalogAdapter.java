@@ -61,14 +61,6 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
         holder.catalogname.setText(catname);
 
 
-//        if (position % 2 == 0) {
-//            //holder.catalogname.setBackgroundColor(Color.parseColor("#4c4c4c"));
-//            holder.catalogname.setBackgroundResource(R.drawable.samarfloorgray);
-//        } else {
-//            //holder.catalogname.setBackgroundColor(Color.parseColor("#ff6861"));
-//            holder.catalogname.setBackgroundResource(R.drawable.samarfloorgray);
-//        }
-
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,9 +108,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                             title.setTextColor(Color.RED);
                             title.setTextSize(20);
                             alert.setCustomTitle(title);
-
                             edittext.setText(catname);
-
                             alert.setView(edittext);
 
                             alert.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
@@ -374,107 +364,6 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
 
             }
         });
-
-//        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//               // AlertDialog.Builder alertbox = new AlertDialog.Builder(getParent().getApplicationContext());
-//                AlertDialog.Builder alertbox = new AlertDialog.Builder(holder.cardView.getRootView().getContext());
-//                alertbox.setMessage(list.get(position));
-//                alertbox.setTitle("Delete Catalog");
-//              // alertbox.setIcon(R.drawable.album1);
-//
-//                alertbox.setNeutralButton("DELETE",
-//                        new DialogInterface.OnClickListener() {
-//
-//                            public void onClick(DialogInterface arg0,
-//                                                int arg1) {
-//                                String item = list.get(position).toString();
-//                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//                                Query applesQuery = ref.child("MainProducts").orderByChild("mainpro").equalTo(item);
-//
-//
-//                                try {
-//
-//
-//                                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-//
-//
-//                                            //////////2/////
-//                                            String item = list.get(position).toString();
-//                                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//                                            Query applesQuery = ref.child("SubProducts").orderByChild("mainproduct").equalTo(item);
-//
-//                                            applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                                @Override
-//                                                public void onDataChange(DataSnapshot dataSnapshot) {
-//                                                    for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-//
-//                                                        ///////3//////
-//
-//
-//
-//
-//                                                        String item1 = list.get(position).toString();
-//                                                        DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
-//                                                        Query applesQuery1 = ref1.child("NewImage").orderByChild("mainproduct").equalTo(item1);
-//
-//                                                        applesQuery1.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                                            @Override
-//                                                            public void onDataChange(DataSnapshot dataSnapshot) {
-//                                                                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-//                                                                    appleSnapshot.getRef().removeValue();
-//
-//                                                                }
-//                                                            }
-//
-//                                                            @Override
-//                                                            public void onCancelled(DatabaseError databaseError) {
-//                                                                Log.e(TAG, "onCancelled", databaseError.toException());
-//                                                            }
-//                                                        });
-//
-//                                                        appleSnapshot.getRef().removeValue();
-//
-//                                                        }
-//                                                }
-//
-//                                                @Override
-//                                                public void onCancelled(DatabaseError databaseError) {
-//                                                    Log.e(TAG, "onCancelled", databaseError.toException());
-//                                                }
-//                                            });
-//
-//                                             appleSnapshot.getRef().removeValue();
-//                                           Toast.makeText(holder.catalogname.getContext(),"Delete Product Successfully", Toast.LENGTH_SHORT).show();
-//
-//
-//
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(DatabaseError databaseError) {
-//                                        Log.e(TAG, "onCancelled", databaseError.toException());
-//                                    }
-//                                });
-//
-//                                }catch (Exception e){}
-//                            }
-//
-//                                });
-//
-//
-//
-//                alertbox.show();
-//
-//
-//                return true;// returning true instead of false, works for me
-//            }
-//        });
 
     }
 
