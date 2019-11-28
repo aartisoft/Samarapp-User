@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,13 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
         final String catname = list.get(position);
         holder.catalogname.setText(catname);
 
+//        if (position % 2 == 0) {
+//            //holder.catalogname.setBackgroundColor(Color.parseColor("#4c4c4c"));
+//            holder.cardLayout.setBackgroundResource(R.color.card_gray);
+//        } else {
+//            //holder.catalogname.setBackgroundColor(Color.parseColor("#ff6861"));
+//            holder.cardLayout.setBackgroundResource(R.color.card_red);
+//        }
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +99,6 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
                     text.setText(item);
 
                     Button dialogButton = (Button) dialog1.findViewById(R.id.dialogButtonOK);
-
                     Button dialogEditButton = (Button) dialog1.findViewById(R.id.dialogButtonEDIT);
 
                     dialogEditButton.setOnClickListener(new View.OnClickListener() {
@@ -308,11 +315,14 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
 
         public TextView catalogname;
         public CardView cardView;
+        public RelativeLayout cardLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             catalogname = (TextView) itemView.findViewById(R.id.catalog_name);
             cardView = (CardView) itemView.findViewById(R.id.card);
+            cardLayout = (RelativeLayout) itemView.findViewById(R.id.card_layout);
+
         }
     }
 }

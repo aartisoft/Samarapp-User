@@ -53,7 +53,7 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
     @Override
     public MainCatalog_adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.catalogsublist, parent, false);
+                .inflate(R.layout.cataloglist, parent, false);
         MainCatalog_adapter.ViewHolder viewHolder = new MainCatalog_adapter.ViewHolder(v);
         return viewHolder;
     }
@@ -279,8 +279,8 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
         public ViewHolder(View itemView) {
             super(itemView);
 
-            catalogSubname = (TextView) itemView.findViewById(R.id.subcatalog_name);
-            subcardView = (CardView) itemView.findViewById(R.id.newcard);
+            catalogSubname = (TextView) itemView.findViewById(R.id.catalog_name);
+            subcardView = (CardView) itemView.findViewById(R.id.card);
         }
     }
 }

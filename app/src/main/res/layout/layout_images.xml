@@ -10,7 +10,9 @@
         android:id="@+id/cardimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="3dp"
         app:cardElevation="5dp"
+        app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true"
         android:layoutAnimation="@anim/layout_animation_right_to_left">
 
@@ -23,6 +25,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:transitionName="imagetransition"
+                android:layout_margin="3dp"
                  />
 
 
@@ -49,8 +52,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5.0dip"
                     android:layout_marginBottom="5.0dip"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
                     android:background="@drawable/edittextanimation1"
                     android:padding="10.0dip"
                     android:text=""
@@ -62,11 +65,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Edit"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="@drawable/button_bg"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
                     android:textStyle="bold"
                     android:textSize="18dp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
 

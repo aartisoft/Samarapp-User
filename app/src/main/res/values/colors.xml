@@ -24,4 +24,7 @@
     <color name="orange">#ffb067</color>
     <color name="green">#67ffae</color>
     <color name="blue">#6785ff</color>
+    <color name="card_gray">#3b3b3b</color>
+    <color name="card_red">#da5956</color>
+
 </resources>
