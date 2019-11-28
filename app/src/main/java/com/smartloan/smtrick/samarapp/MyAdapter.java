@@ -77,7 +77,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                 final Dialog dialog = new Dialog(holder.imagecard.getContext());
                 dialog.setContentView(R.layout.customdialogboximagedisplay);
-
+                dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
                 final ImageView image = (ImageView) dialog.findViewById(R.id.floorimage);
                 Glide.with(holder.imagecard.getContext())

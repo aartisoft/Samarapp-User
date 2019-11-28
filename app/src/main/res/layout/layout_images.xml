@@ -10,9 +10,7 @@
         android:id="@+id/cardimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="3dp"
         app:cardElevation="5dp"
-        app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true"
         android:layoutAnimation="@anim/layout_animation_right_to_left">
 
@@ -24,27 +22,16 @@
                 android:id="@+id/imageView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
                 android:transitionName="imagetransition"
-                android:layout_margin="3dp"
                  />
-
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_below="@id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <!--<EditText-->
-                    <!--android:id="@+id/textViewdescription"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center"-->
-                    <!--android:paddingBottom="10dp"-->
-                    <!--android:paddingTop="10dp"-->
-                    <!--android:inputType="textMultiLine"-->
-                    <!--android:background="@null"-->
-                    <!--android:textColor="@color/colorPrimary" />-->
 
                 <EditText
                     android:id="@+id/textViewdescription"
@@ -54,7 +41,7 @@
                     android:layout_marginBottom="5.0dip"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:background="@drawable/edittextanimation1"
+                    android:background="@drawable/edittextanimation"
                     android:padding="10.0dip"
                     android:text=""
                     android:textColor="@color/bg_register"
@@ -65,8 +52,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Edit"
-                    android:background="@drawable/button_bg"
                     android:layout_gravity="center_horizontal"
+                    android:background="@color/Black"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
