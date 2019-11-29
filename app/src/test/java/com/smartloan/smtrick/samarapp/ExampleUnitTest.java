@@ -1,4 +1,4 @@
-package com.smartloan.smtrick.samarapp;
+package com.smartloan.smtrick.samarapp_user;
 
 import org.junit.Test;
 

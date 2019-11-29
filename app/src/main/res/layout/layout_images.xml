@@ -21,8 +21,8 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerInside"
+                android:layout_height="250dp"
+                android:scaleType="fitXY"
                 android:adjustViewBounds="true"
                 android:transitionName="imagetransition"
                  />

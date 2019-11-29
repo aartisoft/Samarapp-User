@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "41377244216-123u4pcjiqak8qnm25hbi77lngou0u1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smartloan.smtrick.samarapp",
+            "certificate_hash": "a058c77ec79e3080dd24bca3ee8567f802573eb9"
+          }
+        },
+        {
           "client_id": "41377244216-i4ab3khsf0vupfcdiupblp58p8t9kqc6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -33,20 +41,50 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "41377244216-flqs3bue2bmb9a6qbnp5fd0s77bh6fop.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41377244216:android:e24d6ae23b3097f95732cd",
+        "android_client_info": {
+          "package_name": "com.smartloan.smtrick.samarapp_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "41377244216-hmr6t5fn1vnqlkh4eitk4uesr0ej7pas.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smartloan.smtrick.samarapp_user",
+            "certificate_hash": "a058c77ec79e3080dd24bca3ee8567f802573eb9"
+          }
         },
-        "ads_service": {
-          "status": 2
+        {
+          "client_id": "41377244216-flqs3bue2bmb9a6qbnp5fd0s77bh6fop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV5qUFsGYT2K73WK9MRK1_aTePcfvqrL0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "41377244216-flqs3bue2bmb9a6qbnp5fd0s77bh6fop.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

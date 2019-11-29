@@ -1,4 +1,4 @@
-package com.smartloan.smtrick.samarapp;
+package com.smartloan.smtrick.samarapp_user;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.smartloan.smtrick.samarapp", appContext.getPackageName());
+        assertEquals("com.smartloan.smtrick.samarapp_user", appContext.getPackageName());
     }
 }

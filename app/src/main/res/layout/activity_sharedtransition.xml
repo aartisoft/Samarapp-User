@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center"
-    tools:context="com.smartloan.smtrick.samarapp.sharedtransitionActivity">
+    tools:context="com.smartloan.smtrick.samarapp_user.sharedtransitionActivity">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/imageView"
