@@ -43,6 +43,8 @@
                     android:layout_marginRight="3dp"
                     android:background="@drawable/edittextanimation"
                     android:padding="10.0dip"
+                    android:editable="false"
+                    android:focusable="false"
                     android:text=""
                     android:textColor="@color/bg_register"
                     android:textSize="14.0dip" />

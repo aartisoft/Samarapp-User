@@ -42,10 +42,10 @@ public class Main2Activity extends AppCompatActivity {
 
         sNavigationDrawer = findViewById(R.id.navigationDrawer);
         List<MenuItem> menuItems = new ArrayList<>();
-        menuItems.add(new MenuItem("Add Product Names",R.color.Black));
-        menuItems.add(new MenuItem("Upload Catalog Images",R.color.Black));
+//        menuItems.add(new MenuItem("Add Product Names",R.color.Black));
+//        menuItems.add(new MenuItem("Upload Catalog Images",R.color.Black));
         menuItems.add(new MenuItem("View Catalogs",R.color.Black));
-        menuItems.add(new MenuItem("Log Out",R.color.Black));
+//        menuItems.add(new MenuItem("Log Out",R.color.Black));
         sNavigationDrawer.setMenuItemList(menuItems);
         fragmentClass =  Fragment_ViewCatalogs.class;
         try {
@@ -65,31 +65,31 @@ public class Main2Activity extends AppCompatActivity {
                 System.out.println("Position "+position);
 
                 switch (position){
+//                    case 0:{
+//                        color1 = R.color.red;
+//                        fragmentClass = Fragment_Add_Product_names.class;
+//                        break;
+//                    }
+//                    case 1:{
+//                        color1 = R.color.orange;
+//                        fragmentClass = Fragment_Add_Products.class;
+////                        Intent intent = new Intent(Main2Activity.this,Upload_Image_Activity.class);
+////                        startActivity(intent);
+//                        break;
+//                    }
                     case 0:{
-                        color1 = R.color.red;
-                        fragmentClass = Fragment_Add_Product_names.class;
-                        break;
-                    }
-                    case 1:{
-                        color1 = R.color.orange;
-                        fragmentClass = Fragment_Add_Products.class;
-//                        Intent intent = new Intent(Main2Activity.this,Upload_Image_Activity.class);
-//                        startActivity(intent);
-                        break;
-                    }
-                    case 2:{
                         color1 = R.color.green;
                         fragmentClass = Fragment_ViewCatalogs.class;
                         break;
                     }
-                    case 3:{
-                        color1 = R.color.blue;
-//                        fragmentClass = MusicFragment.class;
-                        FirebaseAuth.getInstance().signOut();
-                        finish();
-                        startActivity(new Intent(Main2Activity.this, LoginActivity.class));
-                        break;
-                    }
+//                    case 3:{
+//                        color1 = R.color.blue;
+////                        fragmentClass = MusicFragment.class;
+//                        FirebaseAuth.getInstance().signOut();
+//                        finish();
+//                        startActivity(new Intent(Main2Activity.this, LoginActivity.class));
+//                        break;
+//                    }
 
                 }
                 sNavigationDrawer.setDrawerListener(new SNavigationDrawer.DrawerListener() {
