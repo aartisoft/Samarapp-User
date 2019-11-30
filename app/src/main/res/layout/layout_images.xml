@@ -49,19 +49,19 @@
                     android:textColor="@color/bg_register"
                     android:textSize="14.0dip" />
 
-                <Button
-                    android:id="@+id/Edit_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Edit"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@color/Black"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginRight="3dp"
-                    android:textStyle="bold"
-                    android:textSize="18dp"
-                    android:textColor="@color/white"/>
+<!--                <Button-->
+<!--                    android:id="@+id/Edit_desc"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Edit"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:background="@color/Black"-->
+<!--                    android:layout_marginBottom="5dp"-->
+<!--                    android:layout_marginLeft="3dp"-->
+<!--                    android:layout_marginRight="3dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textSize="18dp"-->
+<!--                    android:textColor="@color/white"/>-->
 
             </LinearLayout>
 

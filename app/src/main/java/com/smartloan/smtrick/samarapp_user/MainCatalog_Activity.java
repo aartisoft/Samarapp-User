@@ -1,11 +1,15 @@
 package com.smartloan.smtrick.samarapp_user;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -50,14 +54,18 @@ public class MainCatalog_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_catalog_);
 
-        assert getSupportActionBar() != null;   //null check
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
         Intent intent = getIntent();
         name = intent.getStringExtra("subproduct");
 
-        getSupportActionBar().setTitle(name);
+        Drawable backArrow = getResources().getDrawable(R.drawable.vd_pathmorph_drawer_arrow);
+        backArrow.setColorFilter(getResources().getColor(R.color.Black), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(backArrow);
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>"+name+"</font>"));
+
+//        getSupportActionBar().setTitle(name);
 
         mainCatalogRecycler = (RecyclerView) findViewById(R.id.maincatalog_recycle);
         mainCatalogRecycler.setHasFixedSize(true);

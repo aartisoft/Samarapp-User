@@ -2,11 +2,15 @@ package com.smartloan.smtrick.samarapp_user;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -54,23 +58,29 @@ public class ShowImagesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_images);
 
         Intent intent = getIntent();
-
-        CatalogProgress = (ProgressBar) findViewById(R.id.mimages_progress);
-        CatalogProgress.setVisibility(View.VISIBLE);
-
-        assert getSupportActionBar() != null;   //null check
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mainitem = intent.getStringExtra("mianproduct");
         subitem = intent.getStringExtra("subproduct");
         catName = intent.getStringExtra("catname");
 
+        CatalogProgress = (ProgressBar) findViewById(R.id.mimages_progress);
+        CatalogProgress.setVisibility(View.VISIBLE);
+
+        Drawable backArrow = getResources().getDrawable(R.drawable.vd_pathmorph_drawer_arrow);
+        backArrow.setColorFilter(getResources().getColor(R.color.Black), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(backArrow);
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
+        getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>"+catName+"</font>"));
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
         progressDialog = new ProgressDialog(this);
 
-        getSupportActionBar().setTitle(catName);  // provide compatibility to all the versions
+//        getSupportActionBar().setTitle(catName);  // provide compatibility to all the versions
 
 
         uploads = new ArrayList<>();

@@ -92,149 +92,149 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             }
         });
 
-        holder.Edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String desc = holder.textViewdesc.getText().toString();
-                String mainpro = upload.getMainproduct();
-                String subpro = upload.getSubproduct();
-                String proid = upload.getPoductId();
-                String name = upload.getName();
-
-                upload.setDesc(desc);
-                upload.setMainproduct(mainpro);
-                upload.setSubproduct(subpro);
-                upload.setPoductId(proid);
-                upload.setName(name);
-                updateid(upload.getPoductId(), upload.getUpdateLeedMap());
-
-            }
-        });
-
-        holder.imagecard.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-
-                // custom dialog
-                final Dialog dialog = new Dialog(holder.imagecard.getRootView().getContext());
-                dialog.setContentView(R.layout.customdialogboxcatlog);
-                //dialog.setTitle("Title...");
-
-                // set the custom dialog components - text, image and button
-                TextView text = (TextView) dialog.findViewById(R.id.text2);
-                text.setText(upload.getDesc());
-
-
-                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-//                Button dialogEditButton = (Button) dialog.findViewById(R.id.dialogButtonEDIT);
+//        holder.Edit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String desc = holder.textViewdesc.getText().toString();
+//                String mainpro = upload.getMainproduct();
+//                String subpro = upload.getSubproduct();
+//                String proid = upload.getPoductId();
+//                String name = upload.getName();
 //
-//                dialogEditButton.setOnClickListener(new View.OnClickListener() {
+//                upload.setDesc(desc);
+//                upload.setMainproduct(mainpro);
+//                upload.setSubproduct(subpro);
+//                upload.setPoductId(proid);
+//                upload.setName(name);
+//                updateid(upload.getPoductId(), upload.getUpdateLeedMap());
+//
+//            }
+//        });
+
+//        holder.imagecard.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//
+//                // custom dialog
+//                final Dialog dialog = new Dialog(holder.imagecard.getRootView().getContext());
+//                dialog.setContentView(R.layout.customdialogboxcatlog);
+//                //dialog.setTitle("Title...");
+//
+//                // set the custom dialog components - text, image and button
+//                TextView text = (TextView) dialog.findViewById(R.id.text2);
+//                text.setText(upload.getDesc());
+//
+//
+//                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+////                Button dialogEditButton = (Button) dialog.findViewById(R.id.dialogButtonEDIT);
+////
+////                dialogEditButton.setOnClickListener(new View.OnClickListener() {
+////                    @Override
+////                    public void onClick(View v) {
+////                        AlertDialog.Builder alert = new AlertDialog.Builder(holder.imagecard.getContext());
+////                        final EditText edittext = new EditText(holder.imagecard.getContext());
+////                        alert.setMessage("Edit");
+////                        alert.setTitle("Edit Catalog Name");
+////
+////                        alert.setView(edittext);
+////
+////                        alert.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
+////                            public void onClick(DialogInterface dialog, int whichButton) {
+////
+////                            }
+////                        });
+////
+////                        alert.setNegativeButton("CANCLE", new DialogInterface.OnClickListener() {
+////                            public void onClick(DialogInterface dialog, int whichButton) {
+////                                // what ever you want to do with No option.
+////                            }
+////                        });
+////
+////                        alert.show();
+////
+////                    }
+////                });
+//
+//                // if button is clicked, close the custom dialog
+//                dialogButton.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
-//                        AlertDialog.Builder alert = new AlertDialog.Builder(holder.imagecard.getContext());
-//                        final EditText edittext = new EditText(holder.imagecard.getContext());
-//                        alert.setMessage("Edit");
-//                        alert.setTitle("Edit Catalog Name");
 //
-//                        alert.setView(edittext);
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(holder.imagecard.getContext());
 //
-//                        alert.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int whichButton) {
+//                        builder.setMessage("Do you want to delete the record")
+//                                .setCancelable(false)
+//                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
 //
-//                            }
-//                        });
+//                                        ///////3//////
+//                                        try {
 //
-//                        alert.setNegativeButton("CANCLE", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int whichButton) {
-//                                // what ever you want to do with No option.
-//                            }
-//                        });
+//                                            String item1 = upload.getPoductId().toString();
+//                                            mStorage = FirebaseStorage.getInstance();
+//                                            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
+//                                            Query applesQuery1 = ref1.child("NewImage").orderByChild("poductId").equalTo(item1);
 //
+//                                            applesQuery1.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                @Override
+//                                                public void onDataChange(DataSnapshot dataSnapshot) {
+//                                                    for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+//                                                        appleSnapshot.getRef().removeValue();
+//
+//                                                    }
+//                                                }
+//
+//                                                @Override
+//                                                public void onCancelled(DatabaseError databaseError) {
+//                                                    Log.e(TAG, "onCancelled", databaseError.toException());
+//                                                }
+//                                            });
+//
+//                                            StorageReference imageRef = mStorage.getReferenceFromUrl(upload.getUrl());
+//                                            imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                                @Override
+//                                                public void onSuccess(Void aVoid) {
+//                                                }
+//                                            });
+//
+//                                            Toast toast = Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT);
+//                                            View view = toast.getView();
+//
+////Gets the actual oval background of the Toast then sets the colour filter
+//                                            view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+//                                            toast.show();
+//                                            uploads.clear();
+//
+//
+//                                        } catch (Exception e) {
+//                                        }
+//
+//
+//                                    }
+//                                })
+//                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        //  Action for 'NO' Button
+//                                        dialog.cancel();
+//                                    }
+//                                });
+//                        //Creating dialog box
+//                        AlertDialog alert = builder.create();
+//                        //Setting the title manually
+//                        alert.setTitle("Delete Product!");
 //                        alert.show();
 //
+//                        dialog.dismiss();
 //                    }
+//
 //                });
-
-                // if button is clicked, close the custom dialog
-                dialogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(holder.imagecard.getContext());
-
-                        builder.setMessage("Do you want to delete the record")
-                                .setCancelable(false)
-                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-
-                                        ///////3//////
-                                        try {
-
-                                            String item1 = upload.getPoductId().toString();
-                                            mStorage = FirebaseStorage.getInstance();
-                                            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
-                                            Query applesQuery1 = ref1.child("NewImage").orderByChild("poductId").equalTo(item1);
-
-                                            applesQuery1.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
-                                                        appleSnapshot.getRef().removeValue();
-
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
-                                                    Log.e(TAG, "onCancelled", databaseError.toException());
-                                                }
-                                            });
-
-                                            StorageReference imageRef = mStorage.getReferenceFromUrl(upload.getUrl());
-                                            imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                }
-                                            });
-
-                                            Toast toast = Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT);
-                                            View view = toast.getView();
-
-//Gets the actual oval background of the Toast then sets the colour filter
-                                            view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-                                            toast.show();
-                                            uploads.clear();
-
-
-                                        } catch (Exception e) {
-                                        }
-
-
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //  Action for 'NO' Button
-                                        dialog.cancel();
-                                    }
-                                });
-                        //Creating dialog box
-                        AlertDialog alert = builder.create();
-                        //Setting the title manually
-                        alert.setTitle("Delete Product!");
-                        alert.show();
-
-                        dialog.dismiss();
-                    }
-
-                });
-
-                dialog.show();
-
-
-                return true;
-            }
-        });
+//
+//                dialog.show();
+//
+//
+//                return true;
+//            }
+//        });
 
     }
 
@@ -273,7 +273,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public EditText textViewdesc;
         public ImageView imageView;
         public CardView imagecard;
-        public Button Edit;
+//        public Button Edit;
 
 
         public ViewHolder(View itemView) {
@@ -283,7 +283,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             textViewdesc = (EditText) itemView.findViewById(R.id.textViewdescription);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
             imagecard = (CardView) itemView.findViewById(R.id.cardimage);
-            Edit = (Button) itemView.findViewById(R.id.Edit_desc);
+//            Edit = (Button) itemView.findViewById(R.id.Edit_desc);
         }
     }
 }
