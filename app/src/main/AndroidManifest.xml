@@ -17,7 +17,11 @@
         android:roundIcon="@drawable/samarapplogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Crop_Selected_Activity"></activity>
+        <activity
+            android:name=".View_Catalog_Activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ViewCatalogActivity" />
+        <activity android:name=".Crop_Selected_Activity" />
         <activity android:name=".Multiple_images_Activity" />
         <activity android:name=".MainCatalog_Activity" />
         <activity
@@ -54,16 +58,12 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_reset_password"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".ShowImagesActivity"
-            android:windowSoftInputMode="stateHidden"/>
-
+        <activity
+            android:name=".ShowImagesActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".SubCatalogActivity" />
-
         <activity android:name=".UserDetailsActivity" />
-
         <activity android:name=".Upload_Image_Activity" />
-
         <activity
             android:name=".sharedtransitionActivity"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity -->

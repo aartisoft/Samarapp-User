@@ -10,8 +10,6 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.smartloan.smtrick.samarapp_user.R;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -50,7 +48,7 @@ public class SplashScreen extends AppCompatActivity implements AnimationListener
 				finish();
 
 				// Start MainActivity.class
-				Intent myIntent = new Intent(SplashScreen.this, Main2Activity.class);
+				Intent myIntent = new Intent(SplashScreen.this, View_Catalog_Activity.class);
 				startActivity(myIntent);
 				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 

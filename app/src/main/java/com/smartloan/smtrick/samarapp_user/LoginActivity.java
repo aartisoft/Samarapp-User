@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.smartloan.smtrick.samarapp_user.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, Main2Activity.class));
+            startActivity(new Intent(LoginActivity.this, View_Catalog_Activity.class));
             finish();
         }
 
@@ -113,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
 
                                         Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(LoginActivity.this, Main2Activity.class);
+                                        Intent intent = new Intent(LoginActivity.this, View_Catalog_Activity.class);
                                         startActivity(intent);
                                         finish();
 
