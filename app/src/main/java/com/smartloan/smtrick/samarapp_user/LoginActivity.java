@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //Get Firebase auth instance
-       auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
 
         if (auth.getCurrentUser() != null) {
@@ -67,9 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
             }
         });
-
-
-
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,14 +106,14 @@ public class LoginActivity extends AppCompatActivity {
 
                                     }
                                 } else {
-                                    if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
+                                    if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
 
                                         Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(LoginActivity.this, View_Catalog_Activity.class);
                                         startActivity(intent);
                                         finish();
 
-                                    }else {
+                                    } else {
 
                                         Toast.makeText(LoginActivity.this, "Please verify your Email Address", Toast.LENGTH_LONG).show();
                                     }

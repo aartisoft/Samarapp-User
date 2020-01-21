@@ -54,7 +54,6 @@ public class SubCatalogActivity extends AppCompatActivity {
         Intent intent = getIntent();
         name = intent.getStringExtra("itemName");
 
-//        getSupportActionBar().setTitle(name);
         Drawable backArrow = getResources().getDrawable(R.drawable.vd_pathmorph_drawer_arrow);
         backArrow.setColorFilter(getResources().getColor(R.color.Black), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(backArrow);
@@ -85,7 +84,6 @@ public class SubCatalogActivity extends AppCompatActivity {
                         subcatalogList1.add(subcatalogList.get(i));
                     }
                 }
-                // subCatalogAdapter.notifyDataSetChanged();
             }
             subCatalogAdapter = new SubCatalogAdapter(subcatalogList1, name);
             subcatalogRecycler.setHasFixedSize(true);

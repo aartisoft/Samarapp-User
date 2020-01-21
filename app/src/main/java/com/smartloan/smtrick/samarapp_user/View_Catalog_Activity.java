@@ -22,11 +22,6 @@ public class View_Catalog_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
-//        getSupportActionBar().setDisplayShowHomeEnabled(false);
-//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
-//        getSupportActionBar().setIcon(R.drawable.samarlogo);
-//        getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>"+"Samar Floors"+"</font>"));
-
         Boolean per = isStoragePermissionGranted();
         if (per){
             //   Toast.makeText(this, "Storage Premission Granted", Toast.LENGTH_SHORT).show();

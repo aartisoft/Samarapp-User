@@ -42,9 +42,6 @@ public class ShowImagesActivity extends AppCompatActivity {
 
     private String subitem,mainitem,catName;
     private ProgressBar CatalogProgress;
-    private String name;
-
-
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -79,10 +76,6 @@ public class ShowImagesActivity extends AppCompatActivity {
 
 
         progressDialog = new ProgressDialog(this);
-
-//        getSupportActionBar().setTitle(catName);  // provide compatibility to all the versions
-
-
         uploads = new ArrayList<>();
 
         //displaying progress dialog while fetching images
@@ -91,7 +84,6 @@ public class ShowImagesActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS);
 
         Query query = FirebaseDatabase.getInstance().getReference("NewImage").orderByChild("name").equalTo(catName);
-
         query.addValueEventListener(valueEventListener);
     }
 

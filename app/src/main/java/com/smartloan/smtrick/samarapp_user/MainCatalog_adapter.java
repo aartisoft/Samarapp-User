@@ -60,10 +60,6 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
 
     @Override
     public void onBindViewHolder(@NonNull final MainCatalog_adapter.ViewHolder holder, final int position) {
-//        String cat = null;
-//        for (int i = 0; i < maincatalogList.size(); i++) {
-//           cat = maincatalogList.get(i).getMaincat();
-//        }
 
         final String subcatname = catalogList.get(position).getName();
         final String key = catalogList.get(position).getPoductId();
@@ -79,8 +75,6 @@ public class MainCatalog_adapter extends RecyclerView.Adapter<MainCatalog_adapte
             @Override
             public void onClick(View v) {
                 //Do on click stuff
-//                Toast.makeText(holder.catalogSubname.getContext(), sublist.get(position),
-//                        Toast.LENGTH_SHORT).show();
                 Intent subintent = new Intent(holder.catalogSubname.getContext(), ShowImagesActivity.class);
                 subintent.putExtra("mianproduct", catalogList.get(position).getMainproduct());
                 subintent.putExtra("subproduct", catalogList.get(position).getSubproduct());

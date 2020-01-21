@@ -61,8 +61,8 @@ public class Fragment_ViewCatalog_Button extends Fragment {
 
         query.addValueEventListener(valueEventListener);
 
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new SliderTimer(), 500, 4000);
+//        Timer timer = new Timer();
+//        timer.scheduleAtFixedRate(new SliderTimer(), 1000, 5000);
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +96,7 @@ public class Fragment_ViewCatalog_Button extends Fragment {
             ImageAdapter adapter = new ImageAdapter(getContext(), uploads1);
             viewPager.setAdapter(adapter);
             Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new SliderTimer(), 500, 3000);
+            timer.scheduleAtFixedRate(new SliderTimer(), 5000, 5000);
 
         }
 
@@ -114,7 +114,7 @@ public class Fragment_ViewCatalog_Button extends Fragment {
                 @Override
                 public void run() {
                     if (viewPager.getCurrentItem() < NUM_PAGES - 1) {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1,true);
                     } else {
                         viewPager.setCurrentItem(0);
                     }

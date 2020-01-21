@@ -65,14 +65,11 @@ public class MainCatalog_Activity extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>"+name+"</font>"));
 
-//        getSupportActionBar().setTitle(name);
-
         mainCatalogRecycler = (RecyclerView) findViewById(R.id.maincatalog_recycle);
         mainCatalogRecycler.setHasFixedSize(true);
         mainCatalogRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         maincatalogprogress = (ProgressBar) findViewById(R.id.maincatalog_progress);
-
 
         uploads = new ArrayList<>();
         uploads1 = new ArrayList<>();
@@ -108,7 +105,6 @@ public class MainCatalog_Activity extends AppCompatActivity {
             }
 
             Query query = FirebaseDatabase.getInstance().getReference("NewImage").orderByChild("subproduct").equalTo(subitem);
-
             query.addValueEventListener(valueEventListener1);
         }
 
